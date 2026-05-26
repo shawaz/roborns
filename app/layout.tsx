@@ -4,8 +4,11 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Roborns — Zero-Waste Coastal Infrastructure",
-  description: "Rent GPU compute, buy fresh water, buy minerals, or license the infrastructure franchise. One coastal facility. Three resource loops. Zero waste.",
+  title: "Roborns — Coastal AI Infrastructure",
+  description: "Coastal facility. Three resource loops. Zero waste.",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -14,7 +17,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('theme');
+                  if (!theme) {
+                    var mql = window.matchMedia('(prefers-color-scheme: dark)');
+                    theme = mql.matches ? 'dark' : 'light';
+                  }
+                  document.documentElement.setAttribute('data-theme', theme);
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body>
         <Navbar />
         {children}

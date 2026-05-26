@@ -26,11 +26,38 @@ function ContactForm() {
   const paramInterest = params.get('interest');
   const defaultInterest = (paramInterest && INTEREST_MAP[paramInterest]) || 'Rent a Server';
 
+  const defaultMessage = (() => {
+    if (!paramInterest) return '';
+    if (paramInterest === 'server') {
+      const gpu = params.get('gpu') || 'h100';
+      const count = params.get('count') || '64';
+      const term = params.get('term') || '12';
+      const gpuName = gpu === 'h100' ? 'NVIDIA H100' : gpu === 'h200' ? 'NVIDIA H200' : 'NVIDIA B200';
+      return `Hi Roborns Team,\n\nI am interested in renting a GPU cluster with the following specifications:\n- Accelerator: ${gpuName}\n- Quantity: ${count} GPUs\n- Contract Duration: ${term} months\n\nPlease send us a formal proposal and availability schedule.`;
+    }
+    if (paramInterest === 'water') {
+      const grade = params.get('grade') || 'potable';
+      const volume = params.get('volume') || '25000';
+      const term = params.get('term') || '1';
+      const gradeName = grade === 'potable' ? 'Fresh Potable Water' : grade === 'industrial' ? 'High-Purity Industrial' : 'Remineralized Mineral Water';
+      return `Hi Roborns Team,\n\nI would like to establish a water offtake contract with the following specifications:\n- Water Grade: ${gradeName}\n- Daily Volume: ${Number(volume).toLocaleString()} Litres/day\n- Contract Term: ${term} year(s)\n\nPlease contact us to discuss connection logistics and pricing options.`;
+    }
+    if (paramInterest === 'minerals') {
+      const mineral = params.get('mineral') || 'nacl';
+      const purity = params.get('purity') || 'industrial';
+      const qty = params.get('qty') || '50';
+      const mineralName = mineral === 'nacl' ? 'Sodium Chloride (NaCl)' : mineral === 'mgoh2' ? 'Magnesium Hydroxide' : mineral === 'kcl' ? 'Potassium Chloride' : 'Liquid Bromine';
+      const purityName = purity === 'industrial' ? 'Industrial (98%)' : purity === 'food' ? 'Food Grade (99.5%)' : 'Pharma/Reagent (99.9%)';
+      return `Hi Roborns Team,\n\nI would like to request a quote for mineral supply:\n- Mineral: ${mineralName}\n- Purity Level: ${purityName}\n- Quantity: ${qty} Metric Tons\n\nPlease let us know the delivery timelines, shipping details, and bulk pricing terms.`;
+    }
+    return '';
+  })();
+
   const [name,     setName]     = useState('');
   const [company,  setCompany]  = useState('');
   const [email,    setEmail]    = useState('');
   const [interest, setInterest] = useState(defaultInterest);
-  const [message,  setMessage]  = useState('');
+  const [message,  setMessage]  = useState(defaultMessage);
   const [sent,     setSent]     = useState(false);
 
   function handleSubmit(e: React.FormEvent) {

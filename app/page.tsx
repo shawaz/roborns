@@ -1,16 +1,18 @@
 import Link from "next/link";
+import { DottedSurface } from "@/components/ui/dotted-surface";
 
 export default function Home() {
   return (
     <div id="page-home" className="page active">
+      <DottedSurface />
 
       {/* ── HERO ── */}
-      <section className="hero">
+      <section className="hero hero-centered">
         <div>
-          <div className="hero-tag">Zero-Waste Coastal Infrastructure</div>
+          <div className="hero-tag">Coastal AI Infrastructure</div>
           <h1>
-            Compute. Water.<br />
-            Minerals. <em>Franchise.</em>
+            Liquid.<br />
+            <em>Intelligence.</em>
           </h1>
           <p className="hero-body">
             One coastal facility. GPU compute cooled by seawater. Waste heat drives
@@ -26,57 +28,17 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <div>
-          <div className="hero-stats">
-            <div className="stat-cell">
-              <div className="stat-num">2<span>MW</span></div>
-              <div className="stat-label">Compute capacity, Day 1</div>
-            </div>
-            <div className="stat-cell">
-              <div className="stat-num">50<span>K</span></div>
-              <div className="stat-label">Litres / day, fresh water</div>
-            </div>
-            <div className="stat-cell">
-              <div className="stat-num">&lt;1.<span>03</span></div>
-              <div className="stat-label">Power usage effectiveness</div>
-            </div>
-            <div className="stat-cell">
-              <div className="stat-num">4<span>×</span></div>
-              <div className="stat-label">Ways to access</div>
-            </div>
-          </div>
-        </div>
       </section>
-
-      {/* ── TICKER ── */}
-      <div className="ticker-bar">
-        <span className="ticker-label">Offerings</span>
-        <div className="ticker-items">
-          <Link className="ticker-item" href="/contact?interest=server">
-            <span className="dot" style={{ background: "#5DCAA5" }}></span>
-            <span>GPU Server Rental — Immersion-cooled compute</span>
-          </Link>
-          <Link className="ticker-item" href="/contact?interest=water">
-            <span className="dot" style={{ background: "#85B7EB" }}></span>
-            <span>Fresh Water Offtake — 50,000 L/day available</span>
-          </Link>
-          <Link className="ticker-item" href="/contact?interest=minerals">
-            <span className="dot" style={{ background: "#c8b4f8" }}></span>
-            <span>Mineral Supply — NaCl · Mg(OH)₂ · KCl · Bromine</span>
-          </Link>
-          <Link className="ticker-item" href="/contact?interest=franchise">
-            <span className="dot" style={{ background: "#F0997B" }}></span>
-            <span>Infrastructure Franchise — License the model globally</span>
-          </Link>
-        </div>
-      </div>
 
       {/* ── FOUR OFFERINGS ── */}
       <section className="home-products" id="offerings">
         <div className="section-label">Our offerings</div>
         <div className="products-grid">
-          <Link href="/contact?interest=server" className="product-card">
+          <Link href="/server" className="product-card">
             <div className="product-accent accent-server"></div>
+            <div className="card-image-wrap">
+              <img src="/images/compute.jpeg" alt="Liquid immersion cooled GPU rack" />
+            </div>
             <div className="product-index">01 / SERVER RENTAL</div>
             <div className="product-name">Rent a Server</div>
             <div className="product-sector">GPU Compute Colocation</div>
@@ -87,11 +49,19 @@ export default function Home() {
             </p>
             <span className="product-arrow">↗</span>
           </Link>
-          <Link href="/contact?interest=water" className="product-card">
+          <Link href="/water" className="product-card">
             <div className="product-accent accent-water"></div>
+            <div className="card-image-wrap">
+              <img src="/images/water.jpg" alt="Desalinated water output valve" />
+            </div>
             <div className="product-index">02 / WATER OFFTAKE</div>
             <div className="product-name">Buy Water</div>
             <div className="product-sector">Desalinated Fresh Water</div>
+            <p style={{ display: "none" }} className="product-desc">
+              50,000 litres per day of potable and industrial-grade fresh water,
+              produced by waste heat from our compute floor. Available for
+              municipal supply contracts and commercial buyers.
+            </p>
             <p className="product-desc">
               50,000 litres per day of potable and industrial-grade fresh water,
               produced by waste heat from our compute floor. Available for
@@ -99,8 +69,11 @@ export default function Home() {
             </p>
             <span className="product-arrow">↗</span>
           </Link>
-          <Link href="/contact?interest=minerals" className="product-card">
+          <Link href="/mineral" className="product-card">
             <div className="product-accent accent-minerals"></div>
+            <div className="card-image-wrap">
+              <img src="/images/minerals.jpg" alt="Mineral salts extracted from brine" />
+            </div>
             <div className="product-index">03 / MINERAL SUPPLY</div>
             <div className="product-name">Buy Minerals</div>
             <div className="product-sector">Zero-Liquid-Discharge Outputs</div>
@@ -111,67 +84,52 @@ export default function Home() {
             </p>
             <span className="product-arrow">↗</span>
           </Link>
-          <Link href="/contact?interest=franchise" className="product-card">
-            <div className="product-accent accent-franchise"></div>
-            <div className="product-index">04 / FRANCHISE</div>
-            <div className="product-name">Infrastructure Franchise</div>
-            <div className="product-sector">License the Three-Building Model</div>
-            <p className="product-desc">
-              Deploy the full Roborns system at your coastal site. We provide the
-              engineering design, vendor relationships, and operational playbook.
-              You own the asset. We co-operate it.
-            </p>
-            <span className="product-arrow">↗</span>
-          </Link>
         </div>
       </section>
 
       {/* ── HOW IT WORKS ── */}
       <section id="how-it-works" style={{ padding: "5rem 4rem", borderTop: "1px solid var(--card-border)" }}>
         <div className="section-label">How it works</div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "start" }}>
-          <div>
-            <h2>
-              Physics at work.<br />
-              <em>Nothing wasted.</em>
-            </h2>
-            <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.78rem", color: "var(--muted)", lineHeight: 1.9, fontWeight: 300, marginTop: "1.5rem", maxWidth: 380 }}>
-              Every megawatt of AI compute produces ~700 kW of waste heat at
-              60–70°C. Most facilities expend additional energy to reject it.
-              Roborns captures it — feeding desalination, then mineral recovery.
-              One input. Three revenue streams. Zero discharge.
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: "4rem", marginBottom: "4rem", alignItems: "end" }}>
+          <h2>
+            Physics at work.<br />
+            <em>Nothing wasted.</em>
+          </h2>
+          <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.85rem", color: "var(--muted)", lineHeight: 1.9, fontWeight: 300, maxWidth: 540 }}>
+            Every megawatt of AI compute produces ~700 kW of waste heat at
+            60–70°C. Most facilities expend additional energy to reject it.
+            Roborns captures it — feeding desalination, then mineral recovery.
+            One input. Three revenue streams. Zero discharge.
+          </p>
+        </div>
+
+        <div className="pillars-grid" style={{ marginTop: "2rem" }}>
+          <div className="pillar">
+            <div className="pillar-icon" style={{ color: "#5DCAA5" }}>⬡</div>
+            <div className="pillar-title">AI Data Center</div>
+            <p className="pillar-desc">
+              GPU racks immersion-cooled in dielectric fluid. Coolant exits at
+              60–70°C and flows directly into the desalination plant — making
+              waste heat the most valuable resource on site.
             </p>
           </div>
-          <div>
-            <div className="pillars-grid" style={{ marginTop: 0 }}>
-              <div className="pillar">
-                <div className="pillar-icon" style={{ color: "#5DCAA5" }}>⬡</div>
-                <div className="pillar-title">AI Data Center</div>
-                <p className="pillar-desc">
-                  GPU racks immersion-cooled in dielectric fluid. Coolant exits at
-                  60–70°C and flows directly into the desalination plant — making
-                  waste heat the most valuable resource on site.
-                </p>
-              </div>
-              <div className="pillar">
-                <div className="pillar-icon" style={{ color: "#85B7EB" }}>◎</div>
-                <div className="pillar-title">Seawater Desalination</div>
-                <p className="pillar-desc">
-                  Warm feedwater from Building A powers a VA Tech Wabag MED-TVC
-                  skid, cutting energy use by 20%. Output scales from 50K to
-                  150K litres per day.
-                </p>
-              </div>
-              <div className="pillar">
-                <div className="pillar-icon" style={{ color: "#c8b4f8" }}>◈</div>
-                <div className="pillar-title">Mineral Recovery</div>
-                <p className="pillar-desc">
-                  Concentrated brine is crystallized into NaCl, Mg(OH)₂, KCl,
-                  and Bromine. Zero-Liquid-Discharge — nothing returns to the
-                  ocean.
-                </p>
-              </div>
-            </div>
+          <div className="pillar">
+            <div className="pillar-icon" style={{ color: "#85B7EB" }}>◎</div>
+            <div className="pillar-title">Seawater Desalination</div>
+            <p className="pillar-desc">
+              Warm feedwater from Building A powers a VA Tech Wabag MED-TVC
+              skid, cutting energy use by 20%. Output scales from 50K to
+              150K litres per day.
+            </p>
+          </div>
+          <div className="pillar">
+            <div className="pillar-icon" style={{ color: "#c8b4f8" }}>◈</div>
+            <div className="pillar-title">Mineral Recovery</div>
+            <p className="pillar-desc">
+              Concentrated brine is crystallized into NaCl, Mg(OH)₂, KCl,
+              and Bromine. Zero-Liquid-Discharge — nothing returns to the
+              ocean.
+            </p>
           </div>
         </div>
 
