@@ -81,7 +81,7 @@ export default function Navbar() {
           <button onClick={toggleTheme} aria-label="Toggle Theme" className="theme-btn">
             {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
           </button>
-          <Link href="/infrastructure" className="nav-cta">FRANCHISE →</Link>
+          <Link href="/infrastructure" className="nav-cta">PROJECT →</Link>
         </div>
 
         {/* Mobile hamburger — hidden on desktop via CSS */}
@@ -133,7 +133,7 @@ export default function Navbar() {
 
         {/* Franchise — separate section */}
         <div className="mobile-franchise">
-          <span className="mobile-section-label">Franchise</span>
+          <span className="mobile-section-label">Project</span>
           <Link href="/infrastructure" className="mobile-franchise-link" onClick={close}>
             Request Infrastructure →
           </Link>

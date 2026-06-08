@@ -182,7 +182,7 @@ export default function Home() {
             ["Compute", "2 MW → 10 MW"],
             ["Water", "50,000 L/day"],
             ["Minerals", "NaCl · Mg(OH)₂ · KCl"],
-            ["Franchise", "All coastal areas"],
+            ["Projects", "All coastal areas"],
             ["PUE", "<1.03"],
             ["Discharge", "Zero"],
           ].map(([k, v]) => (
