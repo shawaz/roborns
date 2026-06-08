@@ -10,7 +10,7 @@ export default function Footer() {
         <li><Link href="/news">News</Link></li>
         <li><Link href="/help">Help</Link></li>
       </ul>
-      <span className="footer-copy">© 2026 Roborns Infrastructure Pvt Ltd. All rights reserved.</span>
+      <span className="footer-copy">© 2026 Roborns. All rights reserved.</span>
     </footer>
   );
 }
