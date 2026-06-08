@@ -148,7 +148,7 @@ export default function Navbar() {
           ))}
         </div>
 
-        <p className="mobile-overlay-copy">© 2026 Roborns Infrastructure Pvt Ltd</p>
+        <p className="mobile-overlay-copy">© 2026 Roborns. All rights reserved.</p>
       </div>
     </>
   );
