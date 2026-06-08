@@ -15,6 +15,8 @@ export interface BoundaryResult {
   areaHectares: number;
 }
 
+interface GeocodeHit { label: string; lon: number; lat: number; }
+
 interface Props {
   center: [number, number];
   zoom?: number;
@@ -47,6 +49,10 @@ const btnStyle: React.CSSProperties = {
   padding: '0.55rem 1.1rem', border: '1px solid var(--accent)', color: 'var(--accent)',
   background: 'transparent', cursor: 'pointer',
 };
+const inputStyle: React.CSSProperties = {
+  background: 'var(--black)', border: '1px solid var(--card-border)', color: 'var(--off-white)',
+  fontFamily: 'var(--font-mono)', fontSize: '0.7rem', padding: '0.55rem 0.85rem', outline: 'none',
+};
 
 export default function BoundaryMapPicker({ center, zoom = 11, onChange }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -58,6 +64,9 @@ export default function BoundaryMapPicker({ center, zoom = 11, onChange }: Props
   const [hasShape, setHasShape] = useState(false);
   const [drawing, setDrawing] = useState(false);
   const [areaHectares, setAreaHectares] = useState<number | null>(null);
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState<GeocodeHit[]>([]);
+  const [searching, setSearching] = useState(false);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -148,11 +157,52 @@ export default function BoundaryMapPicker({ center, zoom = 11, onChange }: Props
     onChangeRef.current(null);
   }
 
+  async function runSearch() {
+    if (!query.trim() || searching) return;
+    setSearching(true);
+    setResults([]);
+    try {
+      const res = await fetch(`/api/geocode?q=${encodeURIComponent(query.trim())}`);
+      const hits: GeocodeHit[] = await res.json();
+      setResults(hits);
+    } finally {
+      setSearching(false);
+    }
+  }
+
+  function flyToHit(hit: GeocodeHit) {
+    mapRef.current?.flyTo({ center: [hit.lon, hit.lat], zoom: 14, essential: true });
+    setResults([]);
+    setQuery(hit.label);
+  }
+
   return (
     <div>
       <div ref={containerRef} style={{ height: 380, border: '1px solid var(--card-border)', position: 'relative' }} />
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.85rem', flexWrap: 'wrap', gap: '0.75rem' }}>
-        <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center', flexWrap: 'wrap' }}>
+          <div style={{ position: 'relative' }}>
+            <input
+              style={{ ...inputStyle, width: 220 }}
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); runSearch(); }
+              }}
+              placeholder="Search a place to jump to…"
+            />
+            {results.length > 0 && (
+              <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 5, background: 'var(--card-bg)', border: '1px solid var(--card-border)', maxHeight: 180, overflowY: 'auto' }}>
+                {results.map((r, i) => (
+                  <button key={i} type="button" onClick={() => flyToHit(r)} style={{
+                    display: 'block', width: '100%', textAlign: 'left', padding: '0.5rem 0.7rem', border: 'none',
+                    background: 'transparent', color: 'var(--off-white)', fontFamily: 'var(--font-mono)', fontSize: '0.6rem',
+                    cursor: 'pointer', borderBottom: '1px solid var(--card-border)',
+                  }}>{r.label}</button>
+                ))}
+              </div>
+            )}
+          </div>
           {!hasShape && !drawing && (
             <button type="button" onClick={startDrawing} style={btnStyle}>
               Draw site boundary →
