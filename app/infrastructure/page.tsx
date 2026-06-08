@@ -19,6 +19,7 @@ const BUDGET_TIERS = [
 
 export default function InfrastructureRequest() {
   const [selectedLoc, setSelectedLoc] = useState(LOCATIONS[0]);
+  const [locOpen, setLocOpen] = useState(false);
   const [selectedBudget, setSelectedBudget] = useState(BUDGET_TIERS[1]);
   const [computeScaleMw, setComputeScaleMw] = useState(10);
   const [waterScaleKld, setWaterScaleKld] = useState(75);
@@ -87,7 +88,7 @@ ${notes}`;
           <em>infrastructure.</em>
         </h1>
         <p className="contact-hero-body" style={{ maxWidth: "600px" }}>
-          Select your target coastal location, budget scale, and resource loop configurations to initialize a new Roborns co-developed franchise infrastructure project.
+          Select your target coastal location, budget scale, and resource loop configurations to initialize a new Roborns co-developed infrastructure project.
         </p>
       </section>
 
@@ -102,36 +103,84 @@ ${notes}`;
           {/* Step 1: Location */}
           <div style={{ marginBottom: "3rem" }}>
             <div className="section-label" style={{ marginBottom: "1.5rem" }}>1. Select Coastal Region</div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-              {LOCATIONS.map((loc) => (
+
+            <div style={{ position: "relative" }}>
+              <div
+                onClick={() => setLocOpen((o) => !o)}
+                style={{
+                  background: "var(--card-bg)",
+                  border: locOpen ? "1px solid var(--accent)" : "1px solid var(--card-border)",
+                  padding: "1.1rem 1.5rem",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  transition: "all 0.2s"
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "baseline", gap: "0.75rem" }}>
+                  <span style={{ fontSize: "0.9rem", fontWeight: 700, color: "var(--off-white)" }}>{selectedLoc.name}</span>
+                  <span style={{ fontSize: "0.55rem", fontFamily: "var(--font-mono)", color: "var(--accent)" }}>{selectedLoc.lat}</span>
+                </div>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.7rem", color: "var(--muted)", transform: locOpen ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>▾</span>
+              </div>
+
+              {locOpen && (
                 <div
-                  key={loc.id}
-                  onClick={() => setSelectedLoc(loc)}
                   style={{
-                    background: selectedLoc.id === loc.id ? "rgba(93,202,165,0.04)" : "var(--card-bg)",
-                    border: selectedLoc.id === loc.id ? "1px solid var(--accent)" : "1px solid var(--card-border)",
-                    padding: "1.5rem",
-                    cursor: "pointer",
-                    transition: "all 0.2s",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between"
+                    position: "absolute",
+                    top: "calc(100% + 0.4rem)",
+                    left: 0,
+                    right: 0,
+                    zIndex: 20,
+                    background: "var(--card-bg)",
+                    border: "1px solid var(--card-border)",
+                    boxShadow: "0 12px 32px rgba(0,0,0,0.35)",
+                    maxHeight: "320px",
+                    overflowY: "auto"
                   }}
                 >
-                  <div>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.5rem" }}>
-                      <span style={{ fontSize: "0.9rem", fontWeight: 700, color: selectedLoc.id === loc.id ? "var(--off-white)" : "var(--muted)" }}>{loc.name}</span>
-                      <span style={{ fontSize: "0.55rem", fontFamily: "var(--font-mono)", color: "var(--accent)" }}>{loc.lat}</span>
+                  {LOCATIONS.map((loc) => (
+                    <div
+                      key={loc.id}
+                      onClick={() => { setSelectedLoc(loc); setLocOpen(false); }}
+                      style={{
+                        padding: "1rem 1.5rem",
+                        cursor: "pointer",
+                        background: selectedLoc.id === loc.id ? "rgba(93,202,165,0.04)" : "transparent",
+                        borderBottom: "1px solid var(--card-border)"
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(93,202,165,0.06)")}
+                      onMouseLeave={(e) => (e.currentTarget.style.background = selectedLoc.id === loc.id ? "rgba(93,202,165,0.04)" : "transparent")}
+                    >
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.35rem" }}>
+                        <span style={{ fontSize: "0.85rem", fontWeight: 700, color: selectedLoc.id === loc.id ? "var(--off-white)" : "var(--muted)" }}>{loc.name}</span>
+                        <span style={{ fontSize: "0.55rem", fontFamily: "var(--font-mono)", color: "var(--accent)" }}>{loc.lat}</span>
+                      </div>
+                      <p style={{ fontSize: "0.66rem", fontFamily: "var(--font-mono)", color: "var(--muted)", lineHeight: 1.5, margin: 0 }}>
+                        {loc.desc}
+                      </p>
                     </div>
-                    <p style={{ fontSize: "0.68rem", fontFamily: "var(--font-mono)", color: "var(--muted)", lineHeight: 1.6, margin: 0 }}>
-                      {loc.desc}
-                    </p>
-                  </div>
-                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.58rem", fontFamily: "var(--font-mono)", color: "var(--muted)", borderTop: "1px solid var(--card-border)", paddingTop: "0.75rem", marginTop: "1rem" }}>
-                    <span>Fiber landing: {loc.fiber}</span>
-                  </div>
+                  ))}
                 </div>
-              ))}
+              )}
+            </div>
+
+            {/* Selected location detail */}
+            <div
+              style={{
+                marginTop: "1rem",
+                background: "var(--card-bg)",
+                border: "1px solid var(--card-border)",
+                padding: "1.5rem"
+              }}
+            >
+              <p style={{ fontSize: "0.68rem", fontFamily: "var(--font-mono)", color: "var(--muted)", lineHeight: 1.6, margin: "0 0 1rem" }}>
+                {selectedLoc.desc}
+              </p>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.58rem", fontFamily: "var(--font-mono)", color: "var(--muted)", borderTop: "1px solid var(--card-border)", paddingTop: "0.75rem" }}>
+                <span>Fiber landing: {selectedLoc.fiber}</span>
+              </div>
             </div>
           </div>
 
