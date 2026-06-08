@@ -76,7 +76,7 @@ export default function Navbar() {
           {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
         </button>
         <Link href="/infrastructure" className="nav-cta">
-          FRANCHISE →
+          PROJECT →
         </Link>
       </div>
       <button className="nav-mobile-toggle" onClick={() => setMobileNavOpen(!mobileNavOpen)}>
