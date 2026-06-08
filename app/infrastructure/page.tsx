@@ -4,11 +4,34 @@ import { useState } from "react";
 import Link from "next/link";
 
 const LOCATIONS = [
-  { id: "north-sea", name: "North Sea, UK", desc: "Abundant offshore wind energy. Cold deep sea water optimizes cooling exchange PUE.", lat: "56.0° N", fiber: "Excellent" },
-  { id: "oregon-coast", name: "Oregon Coast, USA", desc: "Premium Pacific fiber landing zones. Direct hydro-power grid connections.", lat: "44.5° N", fiber: "Direct Landing" },
-  { id: "mediterranean", name: "Mediterranean, Spain", desc: "High water scarcity context. Strong demand for desalinated output & mineral offtake.", lat: "39.5° N", fiber: "Regional Backbone" },
-  { id: "arabian-gulf", name: "Arabian Gulf, KSA", desc: "Extreme solar insolation. High-volume municipal water demand with zero-discharge constraints.", lat: "26.0° N", fiber: "Transcontinental" },
+  { id: "india-west", name: "West Coast, India", desc: "Arabian Sea coastline. High municipal water demand, strong solar grid, growing AI infrastructure appetite.", lat: "15.0° N", fiber: "SEACOM / SMW5" },
+  { id: "india-east", name: "East Coast, India", desc: "Bay of Bengal. Dense population centers, access to Chennai and Vizag fiber landing stations.", lat: "13.0° N", fiber: "Chennai LZ" },
+  { id: "uae", name: "UAE / Persian Gulf", desc: "Extreme freshwater scarcity. High-value mineral brine, strong government infrastructure investment.", lat: "24.5° N", fiber: "FLAG / SMW5" },
+  { id: "saudi", name: "Red Sea, Saudi Arabia", desc: "NEOM corridor. Largest desalination market in the world with zero-discharge mandates.", lat: "26.0° N", fiber: "Transcontinental" },
+  { id: "indonesia", name: "Java Sea, Indonesia", desc: "10,000+ km coastline. Rapidly growing data center market, industrial water demand.", lat: "6.5° S", fiber: "SEA-ME-WE 3" },
+  { id: "philippines", name: "Philippines", desc: "7,000 islands, critical undersea cable hub. Strong desalination demand across island provinces.", lat: "12.0° N", fiber: "PLCN / AAG" },
+  { id: "malaysia", name: "Straits of Malacca, Malaysia", desc: "One of the world's busiest shipping straits. Excellent fiber connectivity and industrial water demand.", lat: "3.5° N", fiber: "AAG / SEAX" },
+  { id: "vietnam", name: "South China Sea, Vietnam", desc: "Fast-growing coastal economy. Government-backed data infrastructure expansion.", lat: "14.0° N", fiber: "AAG / SMW3" },
+  { id: "sri-lanka", name: "Sri Lanka", desc: "Indian Ocean island. Strategic position between East Africa and Southeast Asia submarine cables.", lat: "8.0° N", fiber: "SEA-ME-WE 3" },
+  { id: "bangladesh", name: "Bay of Bengal, Bangladesh", desc: "Coastal delta region. Acute freshwater salinity crisis — highest potential for desalination impact.", lat: "22.0° N", fiber: "SEA-ME-WE 4" },
+  { id: "australia-west", name: "Western Australia", desc: "Vast coastline, world-class mineral resources. Near-zero freshwater in inland zones.", lat: "25.0° S", fiber: "APX West" },
+  { id: "australia-east", name: "Queensland, Australia", desc: "Pacific coast. Consistent renewable energy from solar and offshore wind.", lat: "20.0° S", fiber: "Southern Cross" },
+  { id: "south-africa", name: "Cape Coast, South Africa", desc: "At the junction of Atlantic and Indian Oceans. Severe freshwater stress, growing industrial demand.", lat: "33.0° S", fiber: "SEACOM / SAT3" },
+  { id: "kenya", name: "Mombasa, Kenya", desc: "East African fiber hub. Growing water scarcity crisis, proximity to SEACOM submarine cable.", lat: "4.0° S", fiber: "SEACOM / EASSy" },
+  { id: "morocco", name: "Atlantic Coast, Morocco", desc: "Gateway between Europe and Africa. Water stress is a national emergency, strong EU investment.", lat: "32.0° N", fiber: "Atlas Offshore" },
+  { id: "egypt", name: "Red Sea / Suez, Egypt", desc: "Strategic Suez corridor. One of the most water-stressed nations — desalination is state priority.", lat: "27.0° N", fiber: "SEACOM / FLAG" },
+  { id: "spain", name: "Mediterranean, Spain", desc: "High desalination market, advanced EU environmental compliance framework, strong fiber backbone.", lat: "39.5° N", fiber: "MAREA / ACE" },
+  { id: "greece", name: "Aegean Sea, Greece", desc: "5,000+ km coastline. Island grid independence drives demand for decentralized water production.", lat: "38.0° N", fiber: "MedNautilus" },
+  { id: "turkey", name: "Turkish Riviera, Turkey", desc: "Meeting point of Mediterranean and Black Sea. High tourism and industrial freshwater demand.", lat: "37.0° N", fiber: "Med Nautilus" },
+  { id: "uk", name: "North Sea, UK", desc: "Abundant offshore wind energy. Cold deep-sea water optimizes cooling. Strong fiber landing network.", lat: "56.0° N", fiber: "Transatlantic" },
+  { id: "usa-west", name: "Oregon / California, USA", desc: "Premium Pacific fiber landing zones. Direct hydro and renewable grid connections.", lat: "44.5° N", fiber: "FASTER / JUPITER" },
+  { id: "usa-east", name: "Atlantic Coast, USA", desc: "Dense metro corridors from Miami to Boston. World's largest data center demand zone.", lat: "35.0° N", fiber: "MAREA / AEC" },
+  { id: "brazil", name: "Northeast Brazil", desc: "Atlantic coastline with extreme freshwater scarcity inland. Fast-growing cloud market.", lat: "5.0° S", fiber: "ELLALINK / Monet" },
+  { id: "chile", name: "Pacific Coast, Chile", desc: "World's driest coastal desert. Mining industry demands industrial water at scale.", lat: "25.0° S", fiber: "PCCS" },
+  { id: "mexico", name: "Baja California, Mexico", desc: "Pacific and Gulf of California coast. Severe freshwater stress in border industrial zones.", lat: "26.0° N", fiber: "Pacific Light" },
+  { id: "nigeria", name: "Gulf of Guinea, Nigeria", desc: "West Africa's largest economy. Critical data infrastructure gap and coastal water access needs.", lat: "4.5° N", fiber: "WACS / ACE" },
 ];
+
 
 const BUDGET_TIERS = [
   { id: "pilot", label: "$10M – $50M", scale: "Pilot Infrastructure", details: "Up to 2 MW compute capacity, 15,000 L/day desalination, basic NaCl crystallization." },
@@ -31,26 +54,23 @@ export default function InfrastructureRequest() {
   const [notes, setNotes] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const subj = `Infrastructure Request — ${selectedLoc.name} (${selectedBudget.label})`;
-    const body = `Name: ${name}
-Company: ${company}
-Email: ${email}
-
-PROJECT SUMMARY:
-Location: ${selectedLoc.name}
-Budget Range: ${selectedBudget.label} (${selectedBudget.scale})
-
-PROPOSED CAPACITIES:
-- GPU Compute Floor: ${computeScaleMw} MW
-- Desalination Plant: ${waterScaleKld} kL/day
-- Mineral Recovery: ${mineralsScaleTpm} Tons/month
-
-Notes/Requirements:
-${notes}`;
-
-    window.location.href = `mailto:hello@roborns.com?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
+    const config = `${selectedLoc.name} · ${selectedBudget.label} (${selectedBudget.scale}) · ${computeScaleMw} MW compute · ${waterScaleKld} kL/day water · ${mineralsScaleTpm} t/mo minerals`;
+    try {
+      await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          interest: "Franchise",
+          config,
+          message: `Company: ${company}${notes ? "\n\nNotes: " + notes : ""}`,
+          source: "roborns.com/franchise",
+        }),
+      });
+    } catch { /* show success anyway */ }
     setSubmitted(true);
   }
 
@@ -59,15 +79,12 @@ ${notes}`;
       <div className="page active" style={{ minHeight: "90vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem" }}>
         <div style={{ background: "var(--card-bg)", border: "1px solid var(--accent)", padding: "3rem", maxWidth: "600px", width: "100%", borderRadius: "2px", textAlign: "center" }}>
           <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>⚙️</div>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "var(--accent)", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "1rem" }}>Inquiry Compiled</div>
-          <h2 style={{ fontSize: "1.8rem", fontWeight: 800, marginBottom: "1rem", color: "var(--off-white)" }}>Project Request Initialized</h2>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "var(--accent)", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "1rem" }}>Request Received</div>
+          <h2 style={{ fontSize: "1.8rem", fontWeight: 800, marginBottom: "1rem", color: "var(--off-white)" }}>Infrastructure Request Submitted</h2>
           <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.76rem", color: "var(--muted)", lineHeight: 1.8, marginBottom: "2rem" }}>
-            We have prepared your custom infrastructure configuration and are opening your mail client. If it doesn&apos;t open, email us at <a href="mailto:hello@roborns.com" style={{ color: "var(--accent)" }}>hello@roborns.com</a>.
+            Your infrastructure request has been received. Our team will review your configuration and respond to <strong>{email}</strong> within 48 hours.
           </p>
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
-            <Link href="/" className="btn-primary">
-              Return to Home
-            </Link>
             <button onClick={() => setSubmitted(false)} className="btn-outline">
               Configure Again
             </button>
@@ -87,7 +104,7 @@ ${notes}`;
           <em>infrastructure.</em>
         </h1>
         <p className="contact-hero-body" style={{ maxWidth: "600px" }}>
-          Select your target coastal location, budget scale, and resource loop configurations to initialize a new Roborns co-developed franchise infrastructure project.
+          Select your target coastal location, budget scale, and resource loop configurations to initialize a new Roborns co-developed franchise infrastructure project. Available to all coastal areas.
         </p>
       </section>
 
@@ -102,7 +119,7 @@ ${notes}`;
           {/* Step 1: Location */}
           <div style={{ marginBottom: "3rem" }}>
             <div className="section-label" style={{ marginBottom: "1.5rem" }}>1. Select Coastal Region</div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+            <div className="infra-locs-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
               {LOCATIONS.map((loc) => (
                 <div
                   key={loc.id}
@@ -138,7 +155,7 @@ ${notes}`;
           {/* Step 2: Budget */}
           <div style={{ marginBottom: "3rem" }}>
             <div className="section-label" style={{ marginBottom: "1.5rem" }}>2. Budget Capacity Tier</div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+            <div className="infra-budget-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
               {BUDGET_TIERS.map((tier) => (
                 <div
                   key={tier.id}

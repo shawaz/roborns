@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { LeadForm } from "@/components/LeadForm";
 import { motion } from "framer-motion";
 
 const GPU_TEMPLATES = [
@@ -37,9 +38,6 @@ export default function ServerRental() {
       {/* Hero Header */}
       <section className="product-hero">
         <div>
-          <Link href="/" className="back-link">
-            ← Return Home
-          </Link>
           <div className="hero-tag" style={{ color: "#5DCAA5" }}>01 / Compute Colocation</div>
           <h1>
             Immersive<br />
@@ -219,13 +217,11 @@ export default function ServerRental() {
             </div>
 
             {/* Inquire CTA */}
-            <Link 
-              href={`/contact?interest=server&gpu=${selectedGpu.id}&count=${gpuCount}&term=${contractTerm.months}`}
-              className="btn-primary"
-              style={{ width: "100%", textAlign: "center" }}
-            >
-              Inquire About Cluster →
-            </Link>
+            <LeadForm
+              interest="Compute"
+              config={`${gpuCount}× ${selectedGpu.name} (${selectedGpu.memory}) · ${contractTerm.label} contract · $${Math.round(discountedMonthlyCost).toLocaleString()}/mo`}
+              source="roborns.com/compute"
+            />
           </div>
         </div>
 

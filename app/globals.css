@@ -34,7 +34,7 @@ body{background:var(--black);color:var(--off-white);font-family:var(--font-head)
 
 nav{display:flex;align-items:center;justify-content:space-between;padding:1.5rem 4rem;border-bottom:1px solid var(--card-border);position:sticky;top:0;background:var(--bg-nav);backdrop-filter:blur(8px);z-index:100;transition:background-color 0.3s, border-color 0.3s}
 .logo{display:flex;align-items:center;gap:0.75rem;cursor:pointer;text-decoration:none}
-.logo img{height:26px;width:auto;filter:invert(1)}
+.logo img{height:40px;width:auto;object-fit:contain}
 .logo-text{font-size:1rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--off-white)}
 .logo-text span{color:var(--accent)}
 .nav-links{display:flex;gap:2.5rem;list-style:none;font-size:0.75rem;font-family:var(--font-mono);letter-spacing:0.08em;color:var(--muted);text-transform:uppercase}
@@ -44,7 +44,32 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1.5rem
 .nav-links a{text-decoration:none;color:inherit}
 .nav-cta{font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.1em;border:1px solid var(--accent);color:var(--accent);padding:0.5rem 1.2rem;cursor:pointer;transition:all 0.2s;background:transparent;text-decoration:none}
 .nav-cta:hover{background:var(--accent);color:#0a0a08}
-.nav-mobile-toggle{display:none;background:none;border:none;color:var(--off-white);font-size:1.4rem;cursor:pointer}
+.nav-right{display:flex;align-items:center;gap:1.5rem}
+.theme-btn{background:none;border:none;color:var(--off-white);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0.25rem;transition:transform 0.2s ease}
+.theme-btn:hover{transform:scale(1.15)}
+.nav-mobile-toggle{display:none;background:none;border:none;color:var(--off-white);cursor:pointer;padding:0.25rem;align-items:center;justify-content:center}
+
+/* FULLSCREEN MOBILE OVERLAY */
+.mobile-overlay{position:fixed;inset:0;width:100%;height:100%;background:var(--black);z-index:999;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity 0.25s ease}
+.mobile-overlay.open{opacity:1;pointer-events:all}
+.mobile-overlay-top{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--card-border)}
+.overlay-close{display:flex!important}
+.mobile-nav{display:flex;flex-direction:column;padding:0.5rem 1.75rem;border-bottom:1px solid var(--card-border)}
+.mobile-nav-link{display:flex;align-items:center;gap:1rem;padding:1.25rem 0;border-bottom:1px solid var(--card-border);text-decoration:none;color:var(--muted);font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;transition:color 0.2s;animation:fadeUp 0.3s ease both}
+.mobile-nav-link:last-child{border-bottom:none}
+.mobile-nav-link:hover,.mobile-nav-link.active{color:var(--off-white)}
+.mobile-nav-link.active{color:var(--accent)}
+.mobile-nav-index{font-family:var(--font-mono);font-size:0.58rem;color:var(--muted);letter-spacing:0.15em;flex-shrink:0}
+.mobile-nav-arrow{margin-left:auto;font-size:1rem;opacity:0;transition:opacity 0.2s,transform 0.2s}
+.mobile-nav-link:hover .mobile-nav-arrow{opacity:1;transform:translateX(4px)}
+.mobile-franchise{padding:1.25rem 1.75rem;border-bottom:1px solid var(--card-border)}
+.mobile-section-label{font-family:var(--font-mono);font-size:0.58rem;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;display:block;margin-bottom:0.85rem}
+.mobile-franchise-link{display:inline-flex;align-items:center;font-family:var(--font-mono);font-size:0.78rem;letter-spacing:0.1em;border:1px solid var(--accent);color:var(--accent);padding:0.65rem 1.4rem;text-decoration:none;transition:all 0.2s}
+.mobile-franchise-link:hover,.mobile-franchise-link:active{background:var(--accent);color:#0a0a08}
+.mobile-footer-links{display:flex;gap:0;padding:0.25rem 1.75rem;flex-wrap:wrap;border-bottom:1px solid var(--card-border)}
+.mobile-footer-link{font-family:var(--font-mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.1em;text-decoration:none;padding:1rem 1.5rem 1rem 0;transition:color 0.2s;text-transform:uppercase}
+.mobile-footer-link:hover{color:var(--off-white)}
+.mobile-overlay-copy{font-family:var(--font-mono);font-size:0.58rem;color:var(--muted);padding:1rem 1.75rem;letter-spacing:0.08em;margin-top:auto}
 
 .page{animation:fadeUp 0.4s ease both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
@@ -158,21 +183,81 @@ footer{border-top:1px solid var(--card-border);padding:2rem 4rem;display:flex;al
 .footer-copy{font-family:var(--font-mono);font-size:0.62rem;color:var(--muted)}
 
 @media(max-width:900px){
+  /* NAV */
   nav{padding:1rem 1.5rem}
   .nav-links{display:none}
-  .nav-mobile-toggle{display:block}
-  .nav-links.open{display:flex;flex-direction:column;position:fixed;top:60px;left:0;right:0;background:var(--black);border-bottom:1px solid var(--card-border);padding:1.5rem;gap:1.5rem;z-index:99}
-  .hero,.product-hero{grid-template-columns:1fr;padding:3.5rem 1.5rem;min-height:auto;gap:2rem}
-  .hero-stats{margin-top:0}
+  .nav-right .nav-cta{display:none}
+  .nav-right .theme-btn{display:none}
+  .nav-mobile-toggle{display:flex}
+
+  /* HERO */
+  .hero,.product-hero{grid-template-columns:1fr;padding:3rem 1.5rem;min-height:auto;gap:2rem}
+  .hero.hero-centered{padding:4rem 1.5rem;min-height:70vh}
+  .hero-stats{margin-top:0;grid-template-columns:1fr 1fr}
+  .hero-actions{flex-direction:column;align-items:flex-start}
+
+  /* HOME SECTIONS */
+  .home-products{padding:2.5rem 1.5rem}
   .products-grid{grid-template-columns:1fr}
-  .home-cta{grid-template-columns:1fr;gap:2rem}
-  .contact-body{grid-template-columns:1fr;gap:2rem}
-  .home-products{padding:3rem 1.5rem}
-  .contact-hero,.contact-body{padding-left:1.5rem;padding-right:1.5rem}
-  .ticker-bar{padding:0 1.5rem}
-  footer{padding:1.5rem;flex-direction:column;align-items:flex-start;gap:1rem}
+  .home-cta{grid-template-columns:1fr;gap:2rem;padding:3rem 1.5rem}
+  #how-it-works{padding:3rem 1.5rem !important}
+  #how-it-works > div[style]{display:block !important}
+
+  /* CONTACT/HERO SECTIONS */
+  .contact-hero{padding:3rem 1.5rem 2.5rem}
+  .contact-body{grid-template-columns:1fr!important;gap:2rem;padding:2rem 1.5rem!important}
+
+  /* PRODUCT PAGES */
+  .product-body{display:block!important;padding:2rem 1.5rem!important}
+  .product-body > div[style*="sticky"]{position:static!important;top:auto!important;margin-top:2rem}
+  .product-section{margin-bottom:2.5rem}
+
+  /* PILLARS / ROADMAP */
   .pillars-grid{grid-template-columns:1fr}
   .roadmap-item{grid-template-columns:1fr;gap:0.5rem}
+
+  /* MISC SECTIONS */
+  .section-label{margin-bottom:1.5rem}
+  .ticker-bar{padding:0 1.5rem}
+  .meta-row{padding:0.85rem 1rem}
+
+  /* FOOTER */
+  footer{padding:1.5rem;flex-direction:column;align-items:flex-start;gap:1rem}
+  .footer-links{flex-wrap:wrap;gap:1rem}
+
+  /* TYPOGRAPHY */
+  h1{font-size:clamp(2.2rem,8vw,3.5rem)}
+  h2{font-size:clamp(1.5rem,6vw,2.5rem)}
+
+  /* HELP PAGE */
+  .help-layout{grid-template-columns:1fr!important;gap:2rem!important}
+  .help-sidebar{position:static!important;top:auto!important}
+
+  /* JOB / NEWS ROWS */
+  .job-row{padding:1.5rem}
+  .news-row{padding:1.5rem}
+
+  /* IMAGES */
+  .page-image-wrap{height:220px}
+  .hero-image-wrap{height:260px}
+}
+
+
+  /* INFRASTRUCTURE PAGE */
+  .infra-locs-grid{grid-template-columns:1fr!important}
+  .infra-budget-grid{grid-template-columns:1fr 1fr!important}
+
+@media(max-width:480px){
+  nav{padding:0.9rem 1.2rem}
+  .logo-text{font-size:0.85rem}
+  .hero-stats{grid-template-columns:1fr}
+  .mobile-nav-link{font-size:1.4rem;padding:1.2rem 0}
+  .home-cta{padding:2.5rem 1.2rem}
+  .home-products{padding:2rem 1.2rem}
+  .product-body{padding:1.5rem 1.2rem!important}
+  .contact-hero{padding:2.5rem 1.2rem 2rem}
+  footer{padding:1.2rem}
+  .pillars-grid{gap:0}
 }
 
 /* Image Integration Styles */
@@ -372,3 +457,8 @@ footer{border-top:1px solid var(--card-border);padding:2rem 4rem;display:flex;al
   font-weight: 600;
 }
 
+
+.job-row{background:var(--card-bg);padding:2rem;transition:background 0.2s}
+.job-row:hover{background:var(--card-bg-hover)}
+.news-row{background:var(--card-bg);padding:2.5rem;transition:background 0.2s}
+.news-row:hover{background:var(--card-bg-hover)}

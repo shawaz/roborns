@@ -17,7 +17,7 @@ export default function Home() {
           <p className="hero-body">
             One coastal facility. GPU compute cooled by seawater. Waste heat drives
             desalination. Brine yields commercial minerals. Everything is available
-            to rent, buy, or license — globally.
+            to rent, buy, or license — to all coastal areas.
           </p>
           <div className="hero-actions">
             <Link href="#offerings" className="btn-primary">
@@ -173,7 +173,7 @@ export default function Home() {
             mineral supply agreement, or want to license the model for your own
             coastal site — we respond within 48 hours.
           </p>
-          <Link href="/contact" className="btn-primary">
+          <Link href="/infrastructure" className="btn-primary">
             Get in touch →
           </Link>
         </div>
@@ -182,7 +182,7 @@ export default function Home() {
             ["Compute", "2 MW → 10 MW"],
             ["Water", "50,000 L/day"],
             ["Minerals", "NaCl · Mg(OH)₂ · KCl"],
-            ["Franchise", "Available globally"],
+            ["Franchise", "All coastal areas"],
             ["PUE", "<1.03"],
             ["Discharge", "Zero"],
           ].map(([k, v]) => (
