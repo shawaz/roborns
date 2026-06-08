@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { LeadForm } from "@/components/LeadForm";
 
 const WATER_GRADES = [
-  { id: "potable", name: "Fresh Potable Water", desc: "Municipal & domestic consumption grade, mineral-balanced for health.", rate: 0.008 },
-  { id: "industrial", name: "High-Purity Industrial", desc: "Deionized ultra-pure water for manufacturing, electronics, & laboratories.", rate: 0.012 },
-  { id: "mineralized", name: "Remineralized Mineral Water", desc: "Infused with calcium and magnesium ions harvested directly from brine.", rate: 0.025 },
+  { id: "potable", name: "Fresh Potable Water", desc: "Municipal & domestic consumption grade, mineral-balanced for health.", rate: 0.022 },
+  { id: "industrial", name: "High-Purity Industrial", desc: "Deionized ultra-pure water for manufacturing, electronics, & laboratories.", rate: 0.038 },
+  { id: "mineralized", name: "Remineralized Mineral Water", desc: "Infused with calcium and magnesium ions harvested directly from brine.", rate: 0.075 },
 ];
 
 const OFF_TAKE_CONTRACTS = [
@@ -36,9 +37,6 @@ export default function WaterOfftake() {
       {/* Hero Header */}
       <section className="product-hero">
         <div>
-          <Link href="/" className="back-link">
-            ← Return Home
-          </Link>
           <div className="hero-tag" style={{ color: "#85B7EB" }}>02 / Seawater Desalination</div>
           <h1>
             Pure.<br />
@@ -221,13 +219,13 @@ export default function WaterOfftake() {
             </div>
 
             {/* Inquire CTA */}
-            <Link 
-              href={`/contact?interest=water&grade=${selectedGrade.id}&volume=${dailyVolume}&term=${contractYears.years}`}
-              className="btn-primary"
-              style={{ width: "100%", textAlign: "center" }}
-            >
-              Inquire About Water Offtake →
-            </Link>
+            <LeadForm
+              interest="Water"
+              config={`${dailyVolume.toLocaleString()} L/day ${selectedGrade.name} · ${contractYears.label} contract · $${Math.round(monthlyCost).toLocaleString()}/mo`}
+              source="roborns.com/water"
+              accent="#85B7EB"
+              label="Enquire About Water Offtake →"
+            />
           </div>
         </div>
 

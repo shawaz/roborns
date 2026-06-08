@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { LeadForm } from "@/components/LeadForm";
 
 const MINERAL_TEMPLATES = [
-  { id: "nacl", name: "Sodium Chloride (NaCl)", formula: "NaCl", desc: "Ultra-pure salt suitable for chemical processes, electrolysis, and food preservation.", rate: 110 },
-  { id: "mgoh2", name: "Magnesium Hydroxide", formula: "Mg(OH)₂", desc: "Eco-friendly wastewater treatment, flame retardants, and industrial acid neutralization.", rate: 480 },
-  { id: "kcl", name: "Potassium Chloride", formula: "KCl", desc: "Agricultural fertilizer grade, essential plant nutrient additive.", rate: 350 },
-  { id: "bromine", name: "Liquid Bromine", formula: "Br₂", desc: "High-density element used in water treatment, flame retardants, and pharmaceutical synthesis.", rate: 3200 },
+  { id: "nacl", name: "Sodium Chloride (NaCl)", formula: "NaCl", desc: "Ultra-pure salt suitable for chemical processes, electrolysis, and food preservation.", rate: 280 },
+  { id: "mgoh2", name: "Magnesium Hydroxide", formula: "Mg(OH)₂", desc: "Eco-friendly wastewater treatment, flame retardants, and industrial acid neutralization.", rate: 950 },
+  { id: "kcl", name: "Potassium Chloride", formula: "KCl", desc: "Agricultural fertilizer grade, essential plant nutrient additive.", rate: 720 },
+  { id: "bromine", name: "Liquid Bromine", formula: "Br₂", desc: "High-density element used in water treatment, flame retardants, and pharmaceutical synthesis.", rate: 6500 },
 ];
 
 const PURITY_GRADES = [
@@ -32,9 +33,6 @@ export default function MineralSupply() {
       {/* Hero Header */}
       <section className="product-hero">
         <div>
-          <Link href="/" className="back-link">
-            ← Return Home
-          </Link>
           <div className="hero-tag" style={{ color: "#c8b4f8" }}>03 / Mineral Crystallization</div>
           <h1>
             Solid.<br />
@@ -217,13 +215,13 @@ export default function MineralSupply() {
             </div>
 
             {/* Inquire CTA */}
-            <Link 
-              href={`/contact?interest=minerals&mineral=${selectedMineral.id}&purity=${purityGrade.id}&qty=${quantityTons}`}
-              className="btn-primary"
-              style={{ width: "100%", textAlign: "center" }}
-            >
-              Request Supply Contract →
-            </Link>
+            <LeadForm
+              interest="Mineral"
+              config={`${quantityTons}t/mo ${selectedMineral.name} (${purityGrade.label}) · $${Math.round(totalCost).toLocaleString()} USD`}
+              source="roborns.com/mineral"
+              accent="#c8b4f8"
+              label="Request Supply Contract →"
+            />
           </div>
         </div>
 
