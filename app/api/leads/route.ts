@@ -19,7 +19,7 @@ function writeLeads(leads: Record<string, unknown>[]) {
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, interest, config, message, source } = await req.json();
+    const { name, email, interest, config, message, source, boundary, center, areaHectares } = await req.json();
     if (!name?.trim() || !email?.trim() || !interest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
@@ -34,6 +34,9 @@ export async function POST(req: NextRequest) {
       venture: 'Roborns',
       date: new Date().toISOString(),
       status: 'new',
+      ...(boundary ? { boundary } : {}),
+      ...(Array.isArray(center) ? { center } : {}),
+      ...(typeof areaHectares === 'number' ? { areaHectares } : {}),
     };
     const leads = readLeads();
     leads.unshift(lead);

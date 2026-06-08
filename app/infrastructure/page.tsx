@@ -2,34 +2,35 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import BoundaryMapPicker, { type BoundaryResult } from "./boundary-map-picker";
 
 const LOCATIONS = [
-  { id: "india-west", name: "West Coast, India", desc: "Arabian Sea coastline. High municipal water demand, strong solar grid, growing AI infrastructure appetite.", lat: "15.0° N", fiber: "SEACOM / SMW5" },
-  { id: "india-east", name: "East Coast, India", desc: "Bay of Bengal. Dense population centers, access to Chennai and Vizag fiber landing stations.", lat: "13.0° N", fiber: "Chennai LZ" },
-  { id: "uae", name: "UAE / Persian Gulf", desc: "Extreme freshwater scarcity. High-value mineral brine, strong government infrastructure investment.", lat: "24.5° N", fiber: "FLAG / SMW5" },
-  { id: "saudi", name: "Red Sea, Saudi Arabia", desc: "NEOM corridor. Largest desalination market in the world with zero-discharge mandates.", lat: "26.0° N", fiber: "Transcontinental" },
-  { id: "indonesia", name: "Java Sea, Indonesia", desc: "10,000+ km coastline. Rapidly growing data center market, industrial water demand.", lat: "6.5° S", fiber: "SEA-ME-WE 3" },
-  { id: "philippines", name: "Philippines", desc: "7,000 islands, critical undersea cable hub. Strong desalination demand across island provinces.", lat: "12.0° N", fiber: "PLCN / AAG" },
-  { id: "malaysia", name: "Straits of Malacca, Malaysia", desc: "One of the world's busiest shipping straits. Excellent fiber connectivity and industrial water demand.", lat: "3.5° N", fiber: "AAG / SEAX" },
-  { id: "vietnam", name: "South China Sea, Vietnam", desc: "Fast-growing coastal economy. Government-backed data infrastructure expansion.", lat: "14.0° N", fiber: "AAG / SMW3" },
-  { id: "sri-lanka", name: "Sri Lanka", desc: "Indian Ocean island. Strategic position between East Africa and Southeast Asia submarine cables.", lat: "8.0° N", fiber: "SEA-ME-WE 3" },
-  { id: "bangladesh", name: "Bay of Bengal, Bangladesh", desc: "Coastal delta region. Acute freshwater salinity crisis — highest potential for desalination impact.", lat: "22.0° N", fiber: "SEA-ME-WE 4" },
-  { id: "australia-west", name: "Western Australia", desc: "Vast coastline, world-class mineral resources. Near-zero freshwater in inland zones.", lat: "25.0° S", fiber: "APX West" },
-  { id: "australia-east", name: "Queensland, Australia", desc: "Pacific coast. Consistent renewable energy from solar and offshore wind.", lat: "20.0° S", fiber: "Southern Cross" },
-  { id: "south-africa", name: "Cape Coast, South Africa", desc: "At the junction of Atlantic and Indian Oceans. Severe freshwater stress, growing industrial demand.", lat: "33.0° S", fiber: "SEACOM / SAT3" },
-  { id: "kenya", name: "Mombasa, Kenya", desc: "East African fiber hub. Growing water scarcity crisis, proximity to SEACOM submarine cable.", lat: "4.0° S", fiber: "SEACOM / EASSy" },
-  { id: "morocco", name: "Atlantic Coast, Morocco", desc: "Gateway between Europe and Africa. Water stress is a national emergency, strong EU investment.", lat: "32.0° N", fiber: "Atlas Offshore" },
-  { id: "egypt", name: "Red Sea / Suez, Egypt", desc: "Strategic Suez corridor. One of the most water-stressed nations — desalination is state priority.", lat: "27.0° N", fiber: "SEACOM / FLAG" },
-  { id: "spain", name: "Mediterranean, Spain", desc: "High desalination market, advanced EU environmental compliance framework, strong fiber backbone.", lat: "39.5° N", fiber: "MAREA / ACE" },
-  { id: "greece", name: "Aegean Sea, Greece", desc: "5,000+ km coastline. Island grid independence drives demand for decentralized water production.", lat: "38.0° N", fiber: "MedNautilus" },
-  { id: "turkey", name: "Turkish Riviera, Turkey", desc: "Meeting point of Mediterranean and Black Sea. High tourism and industrial freshwater demand.", lat: "37.0° N", fiber: "Med Nautilus" },
-  { id: "uk", name: "North Sea, UK", desc: "Abundant offshore wind energy. Cold deep-sea water optimizes cooling. Strong fiber landing network.", lat: "56.0° N", fiber: "Transatlantic" },
-  { id: "usa-west", name: "Oregon / California, USA", desc: "Premium Pacific fiber landing zones. Direct hydro and renewable grid connections.", lat: "44.5° N", fiber: "FASTER / JUPITER" },
-  { id: "usa-east", name: "Atlantic Coast, USA", desc: "Dense metro corridors from Miami to Boston. World's largest data center demand zone.", lat: "35.0° N", fiber: "MAREA / AEC" },
-  { id: "brazil", name: "Northeast Brazil", desc: "Atlantic coastline with extreme freshwater scarcity inland. Fast-growing cloud market.", lat: "5.0° S", fiber: "ELLALINK / Monet" },
-  { id: "chile", name: "Pacific Coast, Chile", desc: "World's driest coastal desert. Mining industry demands industrial water at scale.", lat: "25.0° S", fiber: "PCCS" },
-  { id: "mexico", name: "Baja California, Mexico", desc: "Pacific and Gulf of California coast. Severe freshwater stress in border industrial zones.", lat: "26.0° N", fiber: "Pacific Light" },
-  { id: "nigeria", name: "Gulf of Guinea, Nigeria", desc: "West Africa's largest economy. Critical data infrastructure gap and coastal water access needs.", lat: "4.5° N", fiber: "WACS / ACE" },
+  { id: "india-west", coords: [73.8282, 15.499] as [number, number], name: "West Coast, India", desc: "Arabian Sea coastline. High municipal water demand, strong solar grid, growing AI infrastructure appetite.", lat: "15.0° N", fiber: "SEACOM / SMW5" },
+  { id: "india-east", coords: [80.2702, 13.0837] as [number, number], name: "East Coast, India", desc: "Bay of Bengal. Dense population centers, access to Chennai and Vizag fiber landing stations.", lat: "13.0° N", fiber: "Chennai LZ" },
+  { id: "uae", coords: [54.6049, 24.4523] as [number, number], name: "UAE / Persian Gulf", desc: "Extreme freshwater scarcity. High-value mineral brine, strong government infrastructure investment.", lat: "24.5° N", fiber: "FLAG / SMW5" },
+  { id: "saudi", coords: [37.4983, 25.234] as [number, number], name: "Red Sea, Saudi Arabia", desc: "NEOM corridor. Largest desalination market in the world with zero-discharge mandates.", lat: "26.0° N", fiber: "Transcontinental" },
+  { id: "indonesia", coords: [106.8708, -6.1289] as [number, number], name: "Java Sea, Indonesia", desc: "10,000+ km coastline. Rapidly growing data center market, industrial water demand.", lat: "6.5° S", fiber: "SEA-ME-WE 3" },
+  { id: "philippines", coords: [122.5733, 10.6933] as [number, number], name: "Philippines", desc: "7,000 islands, critical undersea cable hub. Strong desalination demand across island provinces.", lat: "12.0° N", fiber: "PLCN / AAG" },
+  { id: "malaysia", coords: [101.3914, 2.9997] as [number, number], name: "Straits of Malacca, Malaysia", desc: "One of the world's busiest shipping straits. Excellent fiber connectivity and industrial water demand.", lat: "3.5° N", fiber: "AAG / SEAX" },
+  { id: "vietnam", coords: [108.212, 16.068] as [number, number], name: "South China Sea, Vietnam", desc: "Fast-growing coastal economy. Government-backed data infrastructure expansion.", lat: "14.0° N", fiber: "AAG / SMW3" },
+  { id: "sri-lanka", coords: [79.8542, 6.9389] as [number, number], name: "Sri Lanka", desc: "Indian Ocean island. Strategic position between East Africa and Southeast Asia submarine cables.", lat: "8.0° N", fiber: "SEA-ME-WE 3" },
+  { id: "bangladesh", coords: [91.8344, 22.3338] as [number, number], name: "Bay of Bengal, Bangladesh", desc: "Coastal delta region. Acute freshwater salinity crisis — highest potential for desalination impact.", lat: "22.0° N", fiber: "SEA-ME-WE 4" },
+  { id: "australia-west", coords: [115.7586, -32.0534] as [number, number], name: "Western Australia", desc: "Vast coastline, world-class mineral resources. Near-zero freshwater in inland zones.", lat: "25.0° S", fiber: "APX West" },
+  { id: "australia-east", coords: [146.824, -19.2569] as [number, number], name: "Queensland, Australia", desc: "Pacific coast. Consistent renewable energy from solar and offshore wind.", lat: "20.0° S", fiber: "Southern Cross" },
+  { id: "south-africa", coords: [18.4172, -33.9288] as [number, number], name: "Cape Coast, South Africa", desc: "At the junction of Atlantic and Indian Oceans. Severe freshwater stress, growing industrial demand.", lat: "33.0° S", fiber: "SEACOM / SAT3" },
+  { id: "kenya", coords: [39.6672, -4.0505] as [number, number], name: "Mombasa, Kenya", desc: "East African fiber hub. Growing water scarcity crisis, proximity to SEACOM submarine cable.", lat: "4.0° S", fiber: "SEACOM / EASSy" },
+  { id: "morocco", coords: [-7.62, 33.5945] as [number, number], name: "Atlantic Coast, Morocco", desc: "Gateway between Europe and Africa. Water stress is a national emergency, strong EU investment.", lat: "32.0° N", fiber: "Atlas Offshore" },
+  { id: "egypt", coords: [33.8307, 27.2226] as [number, number], name: "Red Sea / Suez, Egypt", desc: "Strategic Suez corridor. One of the most water-stressed nations — desalination is state priority.", lat: "27.0° N", fiber: "SEACOM / FLAG" },
+  { id: "spain", coords: [-0.3763, 39.4697] as [number, number], name: "Mediterranean, Spain", desc: "High desalination market, advanced EU environmental compliance framework, strong fiber backbone.", lat: "39.5° N", fiber: "MAREA / ACE" },
+  { id: "greece", coords: [23.6471, 37.9432] as [number, number], name: "Aegean Sea, Greece", desc: "5,000+ km coastline. Island grid independence drives demand for decentralized water production.", lat: "38.0° N", fiber: "MedNautilus" },
+  { id: "turkey", coords: [30.703, 36.8866] as [number, number], name: "Turkish Riviera, Turkey", desc: "Meeting point of Mediterranean and Black Sea. High tourism and industrial freshwater demand.", lat: "37.0° N", fiber: "Med Nautilus" },
+  { id: "uk", coords: [-1.4471, 55.0088] as [number, number], name: "North Sea, UK", desc: "Abundant offshore wind energy. Cold deep-sea water optimizes cooling. Strong fiber landing network.", lat: "56.0° N", fiber: "Transatlantic" },
+  { id: "usa-west", coords: [-124.0534, 44.6368] as [number, number], name: "Oregon / California, USA", desc: "Premium Pacific fiber landing zones. Direct hydro and renewable grid connections.", lat: "44.5° N", fiber: "FASTER / JUPITER" },
+  { id: "usa-east", coords: [-75.9761, 36.8497] as [number, number], name: "Atlantic Coast, USA", desc: "Dense metro corridors from Miami to Boston. World's largest data center demand zone.", lat: "35.0° N", fiber: "MAREA / AEC" },
+  { id: "brazil", coords: [-35.2081, -5.8054] as [number, number], name: "Northeast Brazil", desc: "Atlantic coastline with extreme freshwater scarcity inland. Fast-growing cloud market.", lat: "5.0° S", fiber: "ELLALINK / Monet" },
+  { id: "chile", coords: [-70.398, -23.6464] as [number, number], name: "Pacific Coast, Chile", desc: "World's driest coastal desert. Mining industry demands industrial water at scale.", lat: "25.0° S", fiber: "PCCS" },
+  { id: "mexico", coords: [-110.3159, 24.162] as [number, number], name: "Baja California, Mexico", desc: "Pacific and Gulf of California coast. Severe freshwater stress in border industrial zones.", lat: "26.0° N", fiber: "Pacific Light" },
+  { id: "nigeria", coords: [3.426, 6.43] as [number, number], name: "Gulf of Guinea, Nigeria", desc: "West Africa's largest economy. Critical data infrastructure gap and coastal water access needs.", lat: "4.5° N", fiber: "WACS / ACE" },
 ];
 
 
@@ -44,6 +45,7 @@ export default function InfrastructureRequest() {
   const [selectedLoc, setSelectedLoc] = useState(LOCATIONS[0]);
   const [locOpen, setLocOpen] = useState(false);
   const [selectedBudget, setSelectedBudget] = useState(BUDGET_TIERS[1]);
+  const [boundary, setBoundary] = useState<BoundaryResult | null>(null);
   const [computeScaleMw, setComputeScaleMw] = useState(10);
   const [waterScaleKld, setWaterScaleKld] = useState(75);
   const [mineralsScaleTpm, setMineralsScaleTpm] = useState(150);
@@ -65,10 +67,13 @@ export default function InfrastructureRequest() {
         body: JSON.stringify({
           name,
           email,
-          interest: "Franchise",
+          interest: "Roborns Infrastructure",
           config,
           message: `Company: ${company}${notes ? "\n\nNotes: " + notes : ""}`,
           source: "roborns.com/franchise",
+          boundary: boundary?.polygon ?? null,
+          center: boundary?.center ?? selectedLoc.coords,
+          areaHectares: boundary?.areaHectares ?? null,
         }),
       });
     } catch { /* show success anyway */ }
@@ -201,9 +206,18 @@ export default function InfrastructureRequest() {
             </div>
           </div>
 
-          {/* Step 2: Budget */}
+          {/* Step 2: Site boundary */}
           <div style={{ marginBottom: "3rem" }}>
-            <div className="section-label" style={{ marginBottom: "1.5rem" }}>2. Budget Capacity Tier</div>
+            <div className="section-label" style={{ marginBottom: "1.5rem" }}>2. Mark Your Site Boundary</div>
+            <p style={{ fontSize: "0.68rem", fontFamily: "var(--font-mono)", color: "var(--muted)", lineHeight: 1.6, margin: "0 0 1rem" }}>
+              Trace the boundary of your proposed coastal plot on the satellite map below. This helps our engineering team begin a preliminary site assessment. Optional, but recommended.
+            </p>
+            <BoundaryMapPicker center={selectedLoc.coords} zoom={11} onChange={setBoundary} />
+          </div>
+
+          {/* Step 3: Budget */}
+          <div style={{ marginBottom: "3rem" }}>
+            <div className="section-label" style={{ marginBottom: "1.5rem" }}>3. Budget Capacity Tier</div>
             <div className="infra-budget-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
               {BUDGET_TIERS.map((tier) => (
                 <div
@@ -251,7 +265,7 @@ export default function InfrastructureRequest() {
 
           {/* Step 3: Loop Customization */}
           <div>
-            <div className="section-label" style={{ marginBottom: "1.5rem" }}>3. Resource Loop Sizing</div>
+            <div className="section-label" style={{ marginBottom: "1.5rem" }}>4. Resource Loop Sizing</div>
             
             {/* GPU slider */}
             <div style={{ marginBottom: "2rem" }}>
