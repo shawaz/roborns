@@ -38,7 +38,7 @@ export default function ServerRental() {
       {/* Hero Header */}
       <section className="product-hero">
         <div>
-          <div className="hero-tag" style={{ color: "#5DCAA5" }}>01 / Compute Colocation</div>
+          <div className="hero-tag tag-server">01 / Compute Colocation</div>
           <h1>
             Immersive<br />
             <em>Cooling.</em>
@@ -64,7 +64,7 @@ export default function ServerRental() {
       </section>
 
       {/* Main content body */}
-      <div className="product-body" style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "5rem" }}>
+      <div className="product-body product-body-grid">
         
         {/* Left Side: Technology Info */}
         <div>
@@ -98,7 +98,7 @@ export default function ServerRental() {
 
         {/* Right Side: Interactive Calculator */}
         <div>
-          <div style={{ background: "var(--card-bg)", border: "1px solid var(--card-border)", padding: "2.5rem", borderRadius: "2px", position: "sticky", top: "100px" }}>
+          <div className="calc-card">
             <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <span>Rental Estimator</span>
               <span style={{ fontSize: "0.65rem", fontFamily: "var(--font-mono)", color: "#5DCAA5", border: "1px solid #5DCAA5", padding: "0.2rem 0.5rem" }}>LIVE COMPUTE</span>

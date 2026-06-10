@@ -23,15 +23,15 @@ const FOOTER_LINKS = [
 
 export default function Navbar() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
   const pathname = usePathname();
 
+  // The inline script in layout.tsx sets data-theme before hydration; this is
+  // only a safety net in case it failed.
   useEffect(() => {
-    const saved = localStorage.getItem("theme") as "light" | "dark" | null;
-    const mql = window.matchMedia("(prefers-color-scheme: dark)");
-    const currentTheme = saved || (mql.matches ? "dark" : "light");
-    setTheme(currentTheme);
-    document.documentElement.setAttribute("data-theme", currentTheme);
+    if (!document.documentElement.getAttribute("data-theme")) {
+      const mql = window.matchMedia("(prefers-color-scheme: dark)");
+      document.documentElement.setAttribute("data-theme", mql.matches ? "dark" : "light");
+    }
   }, []);
 
   useEffect(() => {
@@ -44,8 +44,8 @@ export default function Navbar() {
   }, [pathname]);
 
   const toggleTheme = () => {
-    const nextTheme = theme === "dark" ? "light" : "dark";
-    setTheme(nextTheme);
+    const current = document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
+    const nextTheme = current === "dark" ? "light" : "dark";
     localStorage.setItem("theme", nextTheme);
     document.documentElement.setAttribute("data-theme", nextTheme);
   };
@@ -57,11 +57,21 @@ export default function Navbar() {
       <nav>
         <Link href="/" className="logo">
           <Image
-            src={theme === "dark" ? darkLogo : lightLogo}
+            src={darkLogo}
             alt="Roborns Logo"
             priority
             width={40}
             height={40}
+            className="show-on-dark"
+            style={{ width: "40px", height: "40px", objectFit: "contain" }}
+          />
+          <Image
+            src={lightLogo}
+            alt="Roborns Logo"
+            priority
+            width={40}
+            height={40}
+            className="show-on-light"
             style={{ width: "40px", height: "40px", objectFit: "contain" }}
           />
           <span className="logo-text">ROBORNS</span>
@@ -79,7 +89,8 @@ export default function Navbar() {
         {/* Desktop right controls */}
         <div className="nav-right">
           <button onClick={toggleTheme} aria-label="Toggle Theme" className="theme-btn">
-            {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+            <Sun size={18} className="show-on-dark" />
+            <Moon size={18} className="show-on-light" />
           </button>
           <Link href="/infrastructure" className="nav-cta">PROJECT →</Link>
         </div>
@@ -101,10 +112,19 @@ export default function Navbar() {
         <div className="mobile-overlay-top">
           <Link href="/" className="logo" onClick={close}>
             <Image
-              src={theme === "dark" ? darkLogo : lightLogo}
+              src={darkLogo}
               alt="Roborns Logo"
               width={36}
               height={36}
+              className="show-on-dark"
+              style={{ width: "36px", height: "36px", objectFit: "contain" }}
+            />
+            <Image
+              src={lightLogo}
+              alt="Roborns Logo"
+              width={36}
+              height={36}
+              className="show-on-light"
               style={{ width: "36px", height: "36px", objectFit: "contain" }}
             />
             <span className="logo-text">ROBORNS</span>
