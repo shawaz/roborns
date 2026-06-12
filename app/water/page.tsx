@@ -5,9 +5,9 @@ import Link from "next/link";
 import { LeadForm } from "@/components/LeadForm";
 
 const WATER_GRADES = [
-  { id: "potable", name: "Fresh Potable Water", desc: "Municipal & domestic consumption grade, mineral-balanced for health.", rate: 0.022 },
-  { id: "industrial", name: "High-Purity Industrial", desc: "Deionized ultra-pure water for manufacturing, electronics, & laboratories.", rate: 0.038 },
-  { id: "mineralized", name: "Remineralized Mineral Water", desc: "Infused with calcium and magnesium ions harvested directly from brine.", rate: 0.075 },
+  { id: "potable", name: "Fresh Potable Water", desc: "Municipal & domestic consumption grade, mineral-balanced for health.", rate: 0 },
+  { id: "industrial", name: "High-Purity Industrial", desc: "Deionized ultra-pure water for manufacturing, electronics, & laboratories.", rate: 0.0001 },
+  { id: "mineralized", name: "Remineralized Mineral Water", desc: "Infused with calcium and magnesium ions harvested directly from brine.", rate: 0.0002 },
 ];
 
 const OFF_TAKE_CONTRACTS = [
@@ -123,7 +123,7 @@ export default function WaterOfftake() {
                   >
                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.25rem" }}>
                       <span style={{ fontSize: "0.75rem", fontWeight: 700 }}>{grade.name}</span>
-                      <span style={{ fontSize: "0.7rem", fontFamily: "var(--font-mono)", color: "#85B7EB" }}>${grade.rate}/L</span>
+                      <span style={{ fontSize: "0.7rem", fontFamily: "var(--font-mono)", color: "#85B7EB" }}>{grade.rate === 0 ? "Free" : `$${grade.rate}/L`}</span>
                     </div>
                     <div style={{ fontSize: "0.6rem", lineHeight: 1.4 }}>{grade.desc}</div>
                   </button>
@@ -209,11 +209,13 @@ export default function WaterOfftake() {
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.5rem" }}>
                 <span style={{ fontSize: "0.7rem", fontFamily: "var(--font-mono)", color: "var(--muted)" }}>Estimated Monthly Billing:</span>
                 <span style={{ fontSize: "1.6rem", fontWeight: 800, color: "var(--off-white)" }}>
-                  ${Math.round(monthlyCost).toLocaleString()}<span style={{ fontSize: "0.75rem", fontWeight: 400, color: "var(--muted)" }}>/mo</span>
+                  {baseRate === 0 ? "Free" : (
+                    <>${Math.round(monthlyCost).toLocaleString()}<span style={{ fontSize: "0.75rem", fontWeight: 400, color: "var(--muted)" }}>/mo</span></>
+                  )}
                 </span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.6rem", fontFamily: "var(--font-mono)", color: "var(--muted)" }}>
-                <span>Rate: ${(discountedRate).toFixed(4)} per Litre</span>
+                <span>Rate: {baseRate === 0 ? "Free" : `$${discountedRate.toFixed(4)} per Litre`}</span>
                 <span>FOB facility edge pipe connection</span>
               </div>
             </div>
@@ -221,7 +223,7 @@ export default function WaterOfftake() {
             {/* Inquire CTA */}
             <LeadForm
               interest="Water"
-              config={`${dailyVolume.toLocaleString()} L/day ${selectedGrade.name} · ${contractYears.label} contract · $${Math.round(monthlyCost).toLocaleString()}/mo`}
+              config={`${dailyVolume.toLocaleString()} L/day ${selectedGrade.name} · ${contractYears.label} contract · ${baseRate === 0 ? "Free" : `$${Math.round(monthlyCost).toLocaleString()}/mo`}`}
               source="roborns.com/water"
               accent="#85B7EB"
               label="Enquire About Water Offtake →"

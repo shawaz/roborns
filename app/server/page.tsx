@@ -6,9 +6,9 @@ import { LeadForm } from "@/components/LeadForm";
 import { motion } from "framer-motion";
 
 const GPU_TEMPLATES = [
-  { id: "h100", name: "NVIDIA H100 SXM5", memory: "80GB HBM3", rate: 2.20, powerPerGpu: 1.02 },
-  { id: "h200", name: "NVIDIA H200 SXM5", memory: "141GB HBM3e", rate: 3.10, powerPerGpu: 1.10 },
-  { id: "b200", name: "NVIDIA B200", memory: "192GB HBM3e", rate: 4.50, powerPerGpu: 1.40 },
+  { id: "h100", name: "NVIDIA H100 SXM5", memory: "80GB HBM3", powerPerGpu: 1.02 },
+  { id: "h200", name: "NVIDIA H200 SXM5", memory: "141GB HBM3e", powerPerGpu: 1.10 },
+  { id: "b200", name: "NVIDIA B200", memory: "192GB HBM3e", powerPerGpu: 1.40 },
 ];
 
 const CONTRACT_TERMS = [
@@ -17,14 +17,16 @@ const CONTRACT_TERMS = [
   { months: 36, label: "36 Months", discount: 0.25 },
 ];
 
+// Colocation rate — ~₹18,000/kW/mo, converted at ₹84.5/$
+const COLOCATION_RATE_PER_KW = 213;
+
 export default function ServerRental() {
   const [selectedGpu, setSelectedGpu] = useState(GPU_TEMPLATES[0]);
   const [gpuCount, setGpuCount] = useState(64);
   const [contractTerm, setContractTerm] = useState(CONTRACT_TERMS[1]);
 
   const powerKw = parseFloat((selectedGpu.powerPerGpu * gpuCount).toFixed(1));
-  const hourlyRate = selectedGpu.rate * gpuCount;
-  const baseMonthlyCost = hourlyRate * 730;
+  const baseMonthlyCost = powerKw * COLOCATION_RATE_PER_KW;
   const discountedMonthlyCost = baseMonthlyCost * (1 - contractTerm.discount);
   
   // Seawater flow to dissipate heat: approx 150 liters/hour per kW
@@ -44,7 +46,7 @@ export default function ServerRental() {
             <em>Cooling.</em>
           </h1>
           <p className="product-hero-body">
-            Direct liquid-immersion GPU clusters starting at 2 MW capacities. Seawater-cooled heat exchanges yield zero carbon thermal reject. Optimized for LLM training and high-density inference.
+            Bring your own GPU racks into our direct liquid-immersion colocation shell, starting at 2 MW capacities. Seawater-cooled heat exchanges yield zero carbon thermal reject. Optimized for LLM training and high-density inference.
           </p>
         </div>
         <div className="product-hero-right">
@@ -100,13 +102,13 @@ export default function ServerRental() {
         <div>
           <div style={{ background: "var(--card-bg)", border: "1px solid var(--card-border)", padding: "2.5rem", borderRadius: "2px", position: "sticky", top: "100px" }}>
             <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span>Rental Estimator</span>
-              <span style={{ fontSize: "0.65rem", fontFamily: "var(--font-mono)", color: "#5DCAA5", border: "1px solid #5DCAA5", padding: "0.2rem 0.5rem" }}>LIVE COMPUTE</span>
+              <span>Colocation Estimator</span>
+              <span style={{ fontSize: "0.65rem", fontFamily: "var(--font-mono)", color: "#5DCAA5", border: "1px solid #5DCAA5", padding: "0.2rem 0.5rem" }}>BRING YOUR OWN GPUS</span>
             </h3>
 
             {/* Step 1: Select GPU Model */}
             <div style={{ marginBottom: "2rem" }}>
-              <label className="form-label" style={{ marginBottom: "0.75rem", display: "block" }}>1. Select GPU Accelerator</label>
+              <label className="form-label" style={{ marginBottom: "0.75rem", display: "block" }}>1. Your GPU Type (for power estimate)</label>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.75rem" }}>
                 {GPU_TEMPLATES.map((gpu) => (
                   <button
@@ -205,14 +207,14 @@ export default function ServerRental() {
               </div>
 
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.5rem" }}>
-                <span style={{ fontSize: "0.7rem", fontFamily: "var(--font-mono)", color: "var(--muted)" }}>Monthly Rental Cost:</span>
+                <span style={{ fontSize: "0.7rem", fontFamily: "var(--font-mono)", color: "var(--muted)" }}>Monthly Colocation Cost:</span>
                 <span style={{ fontSize: "1.6rem", fontWeight: 800, color: "var(--off-white)" }}>
                   ${Math.round(discountedMonthlyCost).toLocaleString()}<span style={{ fontSize: "0.75rem", fontWeight: 400, color: "var(--muted)" }}>/mo</span>
                 </span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.6rem", fontFamily: "var(--font-mono)", color: "var(--muted)" }}>
-                <span>Rate: ~${(selectedGpu.rate * (1 - contractTerm.discount)).toFixed(2)}/gpu/hr</span>
-                <span>All infrastructure colocation included</span>
+                <span>Rate: ~${(COLOCATION_RATE_PER_KW * (1 - contractTerm.discount)).toFixed(0)}/kW/mo</span>
+                <span>Power, cooling, network &amp; space — you bring the GPUs</span>
               </div>
             </div>
 
