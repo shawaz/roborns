@@ -57,11 +57,6 @@ export default function Home() {
             <div className="product-index">02 / WATER OFFTAKE</div>
             <div className="product-name">Buy Water</div>
             <div className="product-sector">Desalinated Fresh Water</div>
-            <p style={{ display: "none" }} className="product-desc">
-              50,000 litres per day of potable and industrial-grade fresh water,
-              produced by waste heat from our compute floor. Available for
-              municipal supply contracts and commercial buyers.
-            </p>
             <p className="product-desc">
               50,000 litres per day of potable and industrial-grade fresh water,
               produced by waste heat from our compute floor. Available for
@@ -88,14 +83,14 @@ export default function Home() {
       </section>
 
       {/* ── HOW IT WORKS ── */}
-      <section id="how-it-works" style={{ padding: "5rem 4rem", borderTop: "1px solid var(--card-border)" }}>
+      <section id="how-it-works" className="home-section">
         <div className="section-label">How it works</div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: "4rem", marginBottom: "4rem", alignItems: "end" }}>
+        <div className="how-grid">
           <h2>
             Physics at work.<br />
             <em>Nothing wasted.</em>
           </h2>
-          <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.85rem", color: "var(--muted)", lineHeight: 1.9, fontWeight: 300, maxWidth: 540 }}>
+          <p className="lede">
             Every megawatt of AI compute produces ~700 kW of waste heat at
             60–70°C. Most facilities expend additional energy to reject it.
             Roborns captures it — feeding desalination, then mineral recovery.

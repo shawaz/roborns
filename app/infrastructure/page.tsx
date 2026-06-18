@@ -115,7 +115,7 @@ export default function InfrastructureRequest() {
       </section>
 
       {/* Main Grid */}
-      <form onSubmit={handleSubmit} className="contact-body" style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "5rem" }}>
+      <form onSubmit={handleSubmit} className="contact-body config-body">
         
         {/* Left Side: Configuration Controls */}
         <div>
@@ -337,7 +337,7 @@ export default function InfrastructureRequest() {
 
         {/* Right Side: Request Details Form */}
         <div>
-          <div style={{ background: "var(--card-bg)", border: "1px solid var(--card-border)", padding: "2.5rem", borderRadius: "2px", position: "sticky", top: "100px" }}>
+          <div className="calc-card">
             <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: "2rem", borderBottom: "1px solid var(--card-border)", paddingBottom: "1rem" }}>
               Project Request Details
             </h3>

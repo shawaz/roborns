@@ -33,7 +33,7 @@ export default function MineralSupply() {
       {/* Hero Header */}
       <section className="product-hero">
         <div>
-          <div className="hero-tag" style={{ color: "#c8b4f8" }}>03 / Mineral Crystallization</div>
+          <div className="hero-tag tag-mineral">03 / Mineral Crystallization</div>
           <h1>
             Solid.<br />
             <em>Recovered.</em>
@@ -59,7 +59,7 @@ export default function MineralSupply() {
       </section>
 
       {/* Main content body */}
-      <div className="product-body" style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "5rem" }}>
+      <div className="product-body product-body-grid">
         
         {/* Left Side: Technology Info */}
         <div>
@@ -93,7 +93,7 @@ export default function MineralSupply() {
 
         {/* Right Side: Interactive Calculator */}
         <div>
-          <div style={{ background: "var(--card-bg)", border: "1px solid var(--card-border)", padding: "2.5rem", borderRadius: "2px", position: "sticky", top: "100px" }}>
+          <div className="calc-card">
             <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <span>Mineral Supply Configurator</span>
               <span style={{ fontSize: "0.65rem", fontFamily: "var(--font-mono)", color: "#c8b4f8", border: "1px solid #c8b4f8", padding: "0.2rem 0.5rem" }}>ZLD LOOP</span>
