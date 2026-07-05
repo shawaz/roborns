@@ -462,3 +462,16 @@ footer{border-top:1px solid var(--card-border);padding:2rem 4rem;display:flex;al
 .job-row:hover{background:var(--card-bg-hover)}
 .news-row{background:var(--card-bg);padding:2.5rem;transition:background 0.2s}
 .news-row:hover{background:var(--card-bg-hover)}
+
+/* ── Cooling/desalination loop simulation modal ── */
+.cooling-modal-overlay{position:fixed;inset:0;width:100%;height:100%;background:var(--black);z-index:1001;display:flex;flex-direction:column;animation:fadeUp 0.25s ease both}
+.cooling-modal-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--card-border);flex-shrink:0}
+.cooling-modal-body{display:flex;flex:1;min-height:0;flex-direction:row}
+.cooling-scene-container{position:relative;flex:1;min-width:0}
+.cooling-station-label{position:absolute;font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.05em;padding:0.3rem 0.6rem;background:var(--card-bg);border:1px solid var(--card-border);color:var(--off-white);pointer-events:none;white-space:nowrap;transform:translate(-50%,-50%)}
+.cooling-modal-panel{width:340px;flex-shrink:0;border-left:1px solid var(--card-border);padding:1.5rem;overflow-y:auto}
+@media (max-width: 860px){
+  .cooling-modal-body{flex-direction:column}
+  .cooling-modal-panel{width:100%;border-left:none;border-top:1px solid var(--card-border)}
+  .cooling-scene-container{min-height:280px}
+}

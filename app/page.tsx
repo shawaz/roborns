@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { DottedSurface } from "@/components/ui/dotted-surface";
+import { CoolingSimulationModal } from "@/components/cooling-simulation/CoolingSimulationModal";
 
 export default function Home() {
   return (
@@ -95,12 +96,17 @@ export default function Home() {
             Physics at work.<br />
             <em>Nothing wasted.</em>
           </h2>
-          <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.85rem", color: "var(--muted)", lineHeight: 1.9, fontWeight: 300, maxWidth: 540 }}>
-            Every megawatt of AI compute produces ~700 kW of waste heat at
-            60–70°C. Most facilities expend additional energy to reject it.
-            Roborns captures it — feeding desalination, then mineral recovery.
-            One input. Three revenue streams. Zero discharge.
-          </p>
+          <div>
+            <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.85rem", color: "var(--muted)", lineHeight: 1.9, fontWeight: 300, maxWidth: 540 }}>
+              Every megawatt of AI compute produces ~700 kW of waste heat at
+              60–70°C. Most facilities expend additional energy to reject it.
+              Roborns captures it — feeding desalination, then mineral recovery.
+              One input. Three revenue streams. Zero discharge.
+            </p>
+            <div style={{ marginTop: "1.5rem" }}>
+              <CoolingSimulationModal />
+            </div>
+          </div>
         </div>
 
         <div className="pillars-grid" style={{ marginTop: "2rem" }}>
