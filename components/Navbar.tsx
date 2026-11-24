@@ -13,17 +13,19 @@ const MAIN_LINKS = [
   { href: "/server", label: "Compute" },
   { href: "/water", label: "Water" },
   { href: "/mineral", label: "Mineral" },
+  { href: "/how-it-works", label: "How it works" },
 ];
 
 const FOOTER_LINKS = [
   { href: "/about", label: "About" },
+  { href: "/status", label: "Status" },
+  { href: "/partners", label: "Partners" },
+  { href: "/investors", label: "Investors" },
   { href: "/contact", label: "Contact" },
   { href: "/career", label: "Career" },
   { href: "/news", label: "News" },
   { href: "/help", label: "Help" },
   { href: "/legal", label: "Legal" },
-  { href: "/privacy", label: "Privacy" },
-  { href: "/terms", label: "Terms" },
 ];
 
 export default function Navbar() {

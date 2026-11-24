@@ -2,7 +2,7 @@ import { pageMeta } from "@/lib/metadata";
 
 export const metadata = pageMeta({
   title: "Water Offtake — Roborns",
-  description: "Desalinated water produced from waste heat at a Roborns coastal facility, offered for municipal and industrial offtake.",
+  description: "LT-MED fresh water from server heat. Indicative rupee ranges or a quote on request. Not a public dollar price.",
   path: "/water",
   image: "/images/water.webp",
 });

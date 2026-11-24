@@ -1,58 +1,34 @@
 import Link from "next/link";
 import { CONTACTS } from "@/lib/contacts";
+import { Claim } from "@/components/ClaimBadge";
 import { pageMeta } from "@/lib/metadata";
 
 export const metadata = pageMeta({
   title: "Help — Roborns",
-  description: "Answers to common questions about Roborns compute, water, minerals, and how to reach the team.",
+  description: "The product list, location policy, site visits, and how investment works: by private placement only.",
   path: "/help",
 });
 
-function HelpText({ text }: { text: string }) {
-  const parts = text.split(/(Contact page|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/gi);
-  return (
-    <>
-      {parts.map((part, index) => {
-        if (/^contact page$/i.test(part)) {
-          return <Link key={index} href="/contact" style={{ color: "var(--accent)", textDecoration: "none" }}>{part}</Link>;
-        }
-        if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(part)) {
-          return <Link key={index} href={`mailto:${part}`} style={{ color: "var(--accent)", textDecoration: "none" }}>{part}</Link>;
-        }
-        return <span key={index}>{part}</span>;
-      })}
-    </>
-  );
-}
-
 const FAQS = [
   {
-    q: "How do I start a water offtake agreement?",
-    a: "Visit our Water page to use the offtake calculator. Once you have a volume and contract term in mind, submit an enquiry via the Contact page or email supply@codelude.com. Our commercial team will respond within 2 business days.",
+    q: "What does Roborns sell?",
+    a: "Three things, and only these. Colocation: you bring the GPUs; the price is in ₹ per kW per month and is on request. GPU-as-a-service is not a public price; it is available on request through a partner. Water: LT-MED fresh water, with indicative rupee ranges or a quote on request. Minerals: sodium chloride, magnesium hydroxide, potassium chloride, and bromine, as design targets.",
   },
   {
-    q: "What server co-location options are available?",
-    a: "We offer rack-level and cage-level co-location with liquid immersion cooling. Capacity ranges from 10 kW racks to dedicated 500 kW halls. Visit the Server page to explore configurations and start an enquiry.",
+    q: "Where is the facility?",
+    a: "The exact plot is shared under NDA. The state and district are not published on this site yet.",
   },
   {
-    q: "What minerals does Roborns extract and sell?",
-    a: "Our brine extraction wing produces sodium chloride (NaCl), magnesium sulphate, potassium chloride, and lithium carbonate concentrate. Product availability and volumes vary by facility phase. Contact minerals@codelude.com for current availability.",
+    q: "Can I visit?",
+    a: "Visits are arranged for prospective customers and eligible investors after you write to us. Use the Contact page. We do not publish an open visiting day.",
   },
   {
-    q: "How is waste heat from servers used?",
-    a: "Server racks are cooled via liquid immersion. The heated coolant (65°C+) is routed directly into our Multi-Effect Distillation desalination system, which uses this heat to flash-evaporate and distill seawater. No additional energy source is required for desalination.",
+    q: "How do I invest?",
+    a: "By private placement only, to eligible investors. Investor materials are available on request. Nothing on this website is an offer or solicitation of securities. No ticket size is published.",
   },
   {
-    q: "Where is the Roborns facility located?",
-    a: "Our inaugural facility is on the Indian coastline. Exact location details are shared under NDA with prospective partners and clients. Contact us to arrange a facility visit.",
-  },
-  {
-    q: "Can I visit the facility?",
-    a: "Yes — we welcome site visits from prospective partners, investors, and offtake clients. Use the Contact page to request a visit and we will arrange access with our operations team.",
-  },
-  {
-    q: "What are the minimum contract terms?",
-    a: "Water offtake agreements start at 1-year terms with volume flexibility. Server co-location requires a minimum 12-month commitment. Mineral supply contracts are negotiated on a per-product basis.",
+    q: "What is the design heat and power story?",
+    a: "Design target: 70–85% of IT heat recovered at 60–65°C, and a design PUE below 1.08. A measured PUE would be published after 12 months under ISO/IEC 30134-2. The hall is designed to Tier III standards and is not certified.",
   },
 ];
 
@@ -61,30 +37,36 @@ export default function HelpPage() {
     <div className="page" style={{ minHeight: "100vh" }}>
       <section className="contact-hero">
         <div className="hero-tag" style={{ color: "var(--accent)", marginBottom: "1rem" }}>Help</div>
-        <h1>How Can We<br /><em>Help?</em></h1>
+        <h1>One list of<br /><em>products.</em></h1>
         <p className="contact-hero-body">
-          Answers to common questions about our services, infrastructure, and how to get started.
+          If another page disagrees with this one, this page is the list to follow until the owner corrects it.
         </p>
       </section>
 
       <div className="help-layout" style={{ padding: "4rem", display: "grid", gridTemplateColumns: "1fr 340px", gap: "5rem", alignItems: "start" }}>
         <div>
-          <div className="section-label">Frequently Asked Questions</div>
+          <div className="section-label">Questions</div>
           <div style={{ display: "flex", flexDirection: "column", gap: "1px", background: "var(--card-border)", border: "1px solid var(--card-border)" }}>
             {FAQS.map((item) => (
               <div key={item.q} style={{ background: "var(--card-bg)", padding: "2rem" }}>
                 <h3 style={{ fontSize: "0.9rem", fontWeight: 700, marginBottom: "0.75rem", color: "var(--off-white)" }}>{item.q}</h3>
-                <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.72rem", color: "var(--muted)", lineHeight: 1.9, fontWeight: 300 }}><HelpText text={item.a} /></p>
+                <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.72rem", color: "var(--muted)", lineHeight: 1.9, fontWeight: 300 }}>
+                  {item.q.startsWith("What is the design") ? <Claim tag="Design target">{item.a}</Claim> : item.a}
+                </p>
               </div>
             ))}
           </div>
+          <p style={{ marginTop: "1.5rem", fontFamily: "var(--font-mono)", fontSize: "0.72rem", color: "var(--muted)" }}>
+            <Link href="/contact" style={{ color: "var(--accent)" }}>Contact</Link>
+            {" · "}
+            <Link href="/investors" style={{ color: "var(--accent)" }}>Investor materials</Link>
+          </p>
         </div>
-
-        <div className="help-sidebar" style={{ position: "sticky", top: "100px" }}>
-          <div className="section-label">Contact Channels</div>
+        <div>
+          <div className="section-label">Email</div>
           <div style={{ display: "flex", flexDirection: "column", gap: "1px", background: "var(--card-border)", border: "1px solid var(--card-border)", marginBottom: "2rem" }}>
             {CONTACTS.map((ch) => (
-              <div key={ch.label} className="channel-row">
+              <div key={ch.email} className="channel-row">
                 <span className="channel-name">{ch.label}</span>
                 <Link className="channel-val" href={`mailto:${ch.email}`}>{ch.email}</Link>
               </div>

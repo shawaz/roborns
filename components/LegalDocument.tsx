@@ -33,6 +33,9 @@ export function LegalIdentity() {
       <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.72rem", color: "var(--muted)", lineHeight: 1.8 }}>
         Registered office: {LEGAL_OFFICE}
       </p>
+      <p className="todo-note" style={{ marginTop: "0.6rem" }}>
+        TODO: directors and DINs are not published.
+      </p>
     </div>
   );
 }

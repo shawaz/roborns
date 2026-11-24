@@ -35,7 +35,7 @@ export default function LegalPage() {
         <div style={{ borderTop: "1px solid var(--card-border)", paddingTop: "2rem", marginTop: "2rem" }}>
           <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.72rem", color: "var(--muted)", lineHeight: 1.8 }}>
             For legal enquiries, contract disputes, or compliance questions, contact us at{" "}
-            <Link href="mailto:legal@codelude.com" style={{ color: "var(--accent)", textDecoration: "none" }}>legal@codelude.com</Link>{" "}
+            <Link href="mailto:legal@roborns.com" style={{ color: "var(--accent)", textDecoration: "none" }}>legal@roborns.com</Link>{" "}
             or visit our <Link href="/help" style={{ color: "var(--accent)", textDecoration: "none" }}>help page</Link>.
           </p>
         </div>

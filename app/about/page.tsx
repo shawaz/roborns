@@ -4,7 +4,7 @@ import { pageMeta } from "@/lib/metadata";
 
 export const metadata = pageMeta({
   title: "About — Roborns",
-  description: "Roborns is a coastal infrastructure project operated by Codelude Software Private Limited. Team biographies are not published on this site.",
+  description: "Roborns is operated by Codelude Software Private Limited. Team biographies and director names are not published yet.",
   path: "/about",
 });
 
@@ -12,27 +12,24 @@ export default function AboutPage() {
   return (
     <div className="page" style={{ minHeight: "100vh" }}>
       <section className="contact-hero">
-        <div className="hero-tag" style={{ color: "var(--accent)", marginBottom: "1rem" }}>About</div>
+        <div className="hero-tag">About</div>
         <h1>About<br /><em>Roborns</em></h1>
         <p className="contact-hero-body">
-          One coastal facility. GPU compute cooled by seawater. Waste heat drives desalination. Brine yields commercial minerals. The offering can be rented, bought, or licensed for other coastal sites.
+          Roborns builds coastal AI data centres that turn server heat into fresh water and recover minerals from the brine. The exact plot is shared under NDA. The state of the first site is not published yet.
         </p>
       </section>
       <div style={{ padding: "4rem", maxWidth: "860px" }}>
-        <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.76rem", color: "var(--muted)", lineHeight: 1.9, marginBottom: "1.5rem" }}>
-          The inaugural facility is on the Indian coastline. Exact location details are shared under NDA with prospective partners and clients.
-        </p>
-        <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.76rem", color: "var(--muted)", lineHeight: 1.9, marginBottom: "2.5rem" }}>
-          Individual team biographies are not published on this site. Open roles are listed on the{" "}
-          <Link href="/career" style={{ color: "var(--accent)", textDecoration: "none" }}>careers page</Link>.
+        <h2 style={{ fontSize: "1.2rem", marginBottom: "1rem" }}>Team</h2>
+        <p className="todo-note" style={{ marginBottom: "2rem" }}>
+          TODO: founders, advisors, photos, and LinkedIn profiles. No names are invented here.
         </p>
         <LegalIdentity />
         <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.72rem", color: "var(--muted)", lineHeight: 1.8 }}>
-          <Link href="/contact" style={{ color: "var(--accent)", textDecoration: "none" }}>Contact</Link>
+          <Link href="/career" style={{ color: "var(--accent)" }}>Careers</Link>
           {" · "}
-          <Link href="/help" style={{ color: "var(--accent)", textDecoration: "none" }}>Help</Link>
+          <Link href="/contact" style={{ color: "var(--accent)" }}>Contact</Link>
           {" · "}
-          <Link href="/legal" style={{ color: "var(--accent)", textDecoration: "none" }}>Legal</Link>
+          <Link href="/status" style={{ color: "var(--accent)" }}>Project status</Link>
         </p>
       </div>
     </div>

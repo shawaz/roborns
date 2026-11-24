@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { SITE_URL } from "@/lib/company";
+import { LEGAL_CIN, LEGAL_NAME, LEGAL_OFFICE, SITE_URL } from "@/lib/company";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     default: "Roborns — Coastal AI Infrastructure",
     template: "%s",
   },
-  description: "Coastal facility. Three resource loops. Zero waste.",
+  description: "Roborns builds coastal AI data centres that turn server heat into fresh water and recover minerals from the brine.",
   openGraph: {
     siteName: "Roborns",
     type: "website",
@@ -46,6 +46,29 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Roborns",
+              legalName: LEGAL_NAME,
+              url: SITE_URL,
+              email: "hello@roborns.com",
+              taxID: LEGAL_CIN,
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "No 23, Tasleem Manzil, Kasaba Bengre",
+                addressLocality: "Mangalore",
+                addressRegion: "Karnataka",
+                postalCode: "575001",
+                addressCountry: "IN",
+              },
+              description: LEGAL_OFFICE,
+            }),
+          }}
+        />
         <Navbar />
         {children}
         <Footer />

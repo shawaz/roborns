@@ -96,7 +96,7 @@ export function CoolingSimulationModal() {
               </div>
 
               <div style={{ borderTop: "1px solid var(--card-border)", paddingTop: "1.25rem", display: "grid", gap: "0.85rem" }}>
-                <Readout label="Facility draw (PUE 1.028)" value={`${fmt(sim.facilityDrawKw)} kW`} />
+                <Readout label="Illustration only — not a measured PUE" value={`${fmt(sim.facilityDrawKw)} kW`} />
                 <Readout label="Seawater cooling flow" value={`${fmt(sim.seawaterFlowLPerH)} L/h`} />
                 <Readout label="Coolant exit temperature" value={`${sim.coolantExitTempC}°C`} />
                 <Readout label="Waste heat captured" value={`${fmt(sim.wasteHeatKw)} kW`} />
@@ -104,7 +104,7 @@ export function CoolingSimulationModal() {
                   label="Freshwater output"
                   value={`${fmt(sim.freshwaterLPerDay)} L/day${sim.freshwaterCapped ? " (plant capacity)" : ""}`}
                 />
-                <Readout label="CO₂ avoided" value={`${fmt(sim.co2AvoidedKgPerDay)} kg/day`} />
+                <Readout label="CO₂ figure removed until a baseline is shown" value="—" />
                 <Readout label="Thermal energy absorbed" value={`${fmt(sim.thermalAbsorbedMwhPerMonth, 1)} MWh/mo`} />
               </div>
 

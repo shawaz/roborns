@@ -2,7 +2,7 @@ import { pageMeta } from "@/lib/metadata";
 
 export const metadata = pageMeta({
   title: "Mineral Supply — Roborns",
-  description: "Zero-liquid-discharge minerals recovered from desalination brine, including sodium chloride, magnesium hydroxide, potassium chloride, and bromine.",
+  description: "Design-target salts from brine: sodium chloride, magnesium hydroxide, potassium chloride, and bromine. Offtake letters of intent invited for 2027.",
   path: "/mineral",
   image: "/images/minerals.webp",
 });

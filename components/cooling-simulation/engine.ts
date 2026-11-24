@@ -3,7 +3,8 @@
 // which sources every figure from app/server/page.tsx, app/water/page.tsx, app/mineral/page.tsx,
 // app/page.tsx (home), and the internal financial model.
 
-export const PUE = 1.028; // app/server/page.tsx
+// Illustration constant only. The public site does not claim a measured PUE of 1.028.
+export const PUE = 1.08;
 export const SEAWATER_FLOW_L_PER_H_PER_KW = 150; // app/server/page.tsx
 export const COOLANT_EXIT_TEMP_C = 65; // point value within published 60-70°C range
 

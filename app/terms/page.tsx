@@ -21,7 +21,7 @@ export default function TermsPage() {
       <div style={{ padding: "4rem", maxWidth: "860px" }}>
         <LegalUpdatedLine />
         <LegalIdentity />
-        <LegalSections ids={["terms", "sla", "ip"]} />
+        <LegalSections ids={["terms", "sla", "ip", "law", "disclaimer"]} />
         <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.72rem", color: "var(--muted)", lineHeight: 1.8 }}>
           Data handling is described in the{" "}
           <Link href="/privacy" style={{ color: "var(--accent)", textDecoration: "none" }}>privacy policy</Link>.

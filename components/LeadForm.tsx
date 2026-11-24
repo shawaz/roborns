@@ -93,7 +93,7 @@ export function LeadForm({ interest, config, source, accent = "var(--accent)", l
       </button>
       {status === "error" && (
         <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.63rem", color: "#ff6b6b", margin: 0 }}>
-          Failed to send. Email <a href="mailto:roborns@codelude.com" style={{ color: "inherit" }}>roborns@codelude.com</a> directly.
+          Failed to send. Email <a href="mailto:hello@roborns.com" style={{ color: "inherit" }}>hello@roborns.com</a> directly.
         </p>
       )}
     </form>
