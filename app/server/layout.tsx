@@ -2,7 +2,7 @@ import { pageMeta } from "@/lib/metadata";
 
 export const metadata = pageMeta({
   title: "Compute Colocation — Roborns",
-  description: "Bring your own GPU racks into seawater-cooled immersion colocation. Waste heat from the compute floor is routed into desalination.",
+  description: "Colocate your own GPUs, or rent Roborns H100, H200, and B200 hardware by the hour. Both offers use the seawater-cooled immersion hall.",
   path: "/server",
   image: "/images/compute.webp",
 });
