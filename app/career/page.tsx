@@ -1,6 +1,11 @@
 import Link from "next/link";
+import { pageMeta } from "@/lib/metadata";
 
-export const metadata = { title: "Careers — Roborns" };
+export const metadata = pageMeta({
+  title: "Careers — Roborns",
+  description: "Open roles at Roborns in thermal systems, data centre infrastructure, brine analysis, commercial development, and environmental compliance.",
+  path: "/career",
+});
 
 const OPENINGS = [
   {
@@ -8,7 +13,7 @@ const OPENINGS = [
     dept: "Engineering",
     location: "Coastal Facility, India",
     type: "Full-time",
-    desc: "Design and optimise waste-heat recovery loops for MED-TVC desalination systems. Experience with thermodynamic modelling and heat exchanger design required.",
+    desc: "Design and optimise waste-heat recovery loops for LT-MED desalination. Experience with thermodynamic modelling and heat exchanger design required.",
   },
   {
     title: "Data Centre Infrastructure Specialist",
@@ -22,7 +27,7 @@ const OPENINGS = [
     dept: "Minerals",
     location: "Coastal Facility, India",
     type: "Full-time",
-    desc: "Analyse brine composition, manage mineral extraction yields, and ensure product quality for lithium, magnesium, and salt streams.",
+    desc: "Analyse brine composition and extraction yields for sodium chloride, magnesium hydroxide, potassium chloride, and bromine.",
   },
   {
     title: "Business Development Manager",
@@ -83,7 +88,7 @@ export default function CareerPage() {
                     <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "var(--muted)", letterSpacing: "0.1em" }}>{job.type}</span>
                   </div>
                 </div>
-                <Link href="/infrastructure" className="btn-outline" style={{ fontSize: "0.62rem", padding: "0.5rem 1.2rem" }}>
+                <Link href={`mailto:careers@roborns.com?subject=${encodeURIComponent(`Application: ${job.title}`)}`} className="btn-outline" style={{ fontSize: "0.62rem", padding: "0.5rem 1.2rem" }}>
                   Apply →
                 </Link>
               </div>
@@ -95,9 +100,10 @@ export default function CareerPage() {
         <div style={{ marginTop: "3rem", background: "var(--card-bg)", border: "1px solid var(--card-border)", padding: "2.5rem" }}>
           <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: "0.75rem" }}>Don&apos;t see your role?</h3>
           <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.72rem", color: "var(--muted)", lineHeight: 1.8, marginBottom: "1.5rem" }}>
-            We&apos;re always open to exceptional people. Send us your background and what problem you want to help solve.
+            We&apos;re always open to exceptional people. Send us your background and what problem you want to help solve, or email{" "}
+            <Link href="mailto:careers@roborns.com" style={{ color: "var(--accent)", textDecoration: "none" }}>careers@roborns.com</Link>.
           </p>
-          <Link href="/infrastructure" className="btn-primary">Get in Touch →</Link>
+          <Link href="/contact" className="btn-primary">Get in Touch →</Link>
         </div>
       </div>
     </div>

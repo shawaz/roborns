@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import Image from "next/image";
 import BoundaryMapPicker, { type BoundaryResult } from "./boundary-map-picker";
 
 const LOCATIONS = [
@@ -34,21 +34,10 @@ const LOCATIONS = [
 ];
 
 
-const BUDGET_TIERS = [
-  { id: "pilot", label: "$10M – $50M", scale: "Pilot Infrastructure", details: "Up to 2 MW compute capacity, 15,000 L/day desalination, basic NaCl crystallization." },
-  { id: "standard", label: "$50M – $200M", scale: "Standard Regional Hub", details: "Up to 10 MW compute capacity, 75,000 L/day desalination, advanced NaCl & Mg(OH)₂ recovery." },
-  { id: "utility", label: "$200M – $500M", scale: "Utility Scale Hub", details: "Up to 50 MW compute capacity, 350,000 L/day desalination, full mineral crystallization suite." },
-  { id: "giga", label: "$500M+", scale: "Industrial Gigawatt Facility", details: "Fully custom scale. Multi-facility clusters, customized sea-intakes, and grid co-generation." },
-];
-
 export default function InfrastructureRequest() {
   const [selectedLoc, setSelectedLoc] = useState(LOCATIONS[0]);
   const [locOpen, setLocOpen] = useState(false);
-  const [selectedBudget, setSelectedBudget] = useState(BUDGET_TIERS[1]);
   const [boundary, setBoundary] = useState<BoundaryResult | null>(null);
-  const [computeScaleMw, setComputeScaleMw] = useState(10);
-  const [waterScaleKld, setWaterScaleKld] = useState(75);
-  const [mineralsScaleTpm, setMineralsScaleTpm] = useState(150);
 
   // Form states
   const [name, setName] = useState("");
@@ -59,7 +48,7 @@ export default function InfrastructureRequest() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const config = `${selectedLoc.name} · ${selectedBudget.label} (${selectedBudget.scale}) · ${computeScaleMw} MW compute · ${waterScaleKld} kL/day water · ${mineralsScaleTpm} t/mo minerals`;
+    const config = `${selectedLoc.name} · coastal project enquiry · capacity and budget not quoted on the site`;
     try {
       await fetch("/api/leads", {
         method: "POST",
@@ -67,10 +56,10 @@ export default function InfrastructureRequest() {
         body: JSON.stringify({
           name,
           email,
-          interest: "Roborns Infrastructure",
+          interest: "Infrastructure project",
           config,
           message: `Company: ${company}${notes ? "\n\nNotes: " + notes : ""}`,
-          source: "roborns.com/franchise",
+          source: "roborns.com/infrastructure",
           boundary: boundary?.polygon ?? null,
           center: boundary?.center ?? selectedLoc.coords,
           areaHectares: boundary?.areaHectares ?? null,
@@ -104,13 +93,13 @@ export default function InfrastructureRequest() {
     <div className="page active" style={{ minHeight: "100vh" }}>
       {/* Hero Header */}
       <section className="contact-hero">
-        <div className="hero-tag" style={{ color: "var(--accent)" }}>System Configurator</div>
+        <div className="hero-tag" style={{ color: "var(--accent)" }}>Projects</div>
         <h1>
-          Request new<br />
-          <em>infrastructure.</em>
+          Request a<br />
+          <em>conversation.</em>
         </h1>
         <p className="contact-hero-body" style={{ maxWidth: "600px" }}>
-          Select your target coastal location, budget scale, and resource loop configurations to initialize a new Roborns co-developed infrastructure project. Available to all coastal areas.
+          Mark a coastal site if you want a preliminary look. Capacity, budget, and price are not quoted on this page. They are discussed after the enquiry.
         </p>
       </section>
 
@@ -120,7 +109,7 @@ export default function InfrastructureRequest() {
         {/* Left Side: Configuration Controls */}
         <div>
           <div className="page-image-wrap">
-            <img src="/images/facility.png" alt="Roborns Coastal Circular Facility Design Model" />
+            <Image src="/images/facility.webp" alt="Roborns Coastal Circular Facility Design Model" fill sizes="(max-width: 900px) 100vw, 60vw" />
           </div>
           {/* Step 1: Location */}
           <div style={{ marginBottom: "3rem" }}>
@@ -215,124 +204,6 @@ export default function InfrastructureRequest() {
             <BoundaryMapPicker center={selectedLoc.coords} zoom={11} onChange={setBoundary} />
           </div>
 
-          {/* Step 3: Budget */}
-          <div style={{ marginBottom: "3rem" }}>
-            <div className="section-label" style={{ marginBottom: "1.5rem" }}>3. Budget Capacity Tier</div>
-            <div className="infra-budget-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-              {BUDGET_TIERS.map((tier) => (
-                <div
-                  key={tier.id}
-                  onClick={() => {
-                    setSelectedBudget(tier);
-                    // Autofill suggested configurations based on tier
-                    if (tier.id === "pilot") {
-                      setComputeScaleMw(2);
-                      setWaterScaleKld(15);
-                      setMineralsScaleTpm(30);
-                    } else if (tier.id === "standard") {
-                      setComputeScaleMw(10);
-                      setWaterScaleKld(75);
-                      setMineralsScaleTpm(150);
-                    } else if (tier.id === "utility") {
-                      setComputeScaleMw(50);
-                      setWaterScaleKld(350);
-                      setMineralsScaleTpm(700);
-                    } else if (tier.id === "giga") {
-                      setComputeScaleMw(100);
-                      setWaterScaleKld(750);
-                      setMineralsScaleTpm(1500);
-                    }
-                  }}
-                  style={{
-                    background: selectedBudget.id === tier.id ? "rgba(93,202,165,0.04)" : "var(--card-bg)",
-                    border: selectedBudget.id === tier.id ? "1px solid var(--accent)" : "1px solid var(--card-border)",
-                    padding: "1.5rem",
-                    cursor: "pointer",
-                    transition: "all 0.2s"
-                  }}
-                >
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.5rem" }}>
-                    <span style={{ fontSize: "1rem", fontWeight: 800, color: "var(--off-white)" }}>{tier.label}</span>
-                    <span style={{ fontSize: "0.55rem", fontFamily: "var(--font-mono)", color: "var(--accent)" }}>{tier.scale}</span>
-                  </div>
-                  <p style={{ fontSize: "0.68rem", fontFamily: "var(--font-mono)", color: "var(--muted)", lineHeight: 1.6, margin: 0 }}>
-                    {tier.details}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Step 3: Loop Customization */}
-          <div>
-            <div className="section-label" style={{ marginBottom: "1.5rem" }}>4. Resource Loop Sizing</div>
-            
-            {/* GPU slider */}
-            <div style={{ marginBottom: "2rem" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.75rem" }}>
-                <span style={{ fontSize: "0.7rem", fontFamily: "var(--font-mono)", color: "var(--muted)", textTransform: "uppercase" }}>GPU Compute Floor Scale</span>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.75rem", color: "var(--accent)", fontWeight: 700 }}>{computeScaleMw} MW</span>
-              </div>
-              <input
-                type="range"
-                min="1"
-                max="200"
-                step="1"
-                value={computeScaleMw}
-                onChange={(e) => setComputeScaleMw(parseInt(e.target.value))}
-                style={{ width: "100%", accentColor: "var(--accent)", background: "var(--card-border)", height: "4px", outline: "none" }}
-              />
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.55rem", fontFamily: "var(--font-mono)", color: "var(--muted)", marginTop: "0.4rem" }}>
-                <span>1 MW (Pilot)</span>
-                <span>100 MW (Grid Scale)</span>
-                <span>200 MW (Super cluster)</span>
-              </div>
-            </div>
-
-            {/* Desalination slider */}
-            <div style={{ marginBottom: "2rem" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.75rem" }}>
-                <span style={{ fontSize: "0.7rem", fontFamily: "var(--font-mono)", color: "var(--muted)", textTransform: "uppercase" }}>Desalination capacity</span>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.75rem", color: "#85B7EB", fontWeight: 700 }}>{waterScaleKld} kL / Day</span>
-              </div>
-              <input
-                type="range"
-                min="10"
-                max="1000"
-                step="10"
-                value={waterScaleKld}
-                onChange={(e) => setWaterScaleKld(parseInt(e.target.value))}
-                style={{ width: "100%", accentColor: "#85B7EB", background: "var(--card-border)", height: "4px", outline: "none" }}
-              />
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.55rem", fontFamily: "var(--font-mono)", color: "var(--muted)", marginTop: "0.4rem" }}>
-                <span>10 kL/day</span>
-                <span>500 kL/day</span>
-                <span>1,000 kL/day</span>
-              </div>
-            </div>
-
-            {/* Minerals slider */}
-            <div style={{ marginBottom: "2rem" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.75rem" }}>
-                <span style={{ fontSize: "0.7rem", fontFamily: "var(--font-mono)", color: "var(--muted)", textTransform: "uppercase" }}>Mineral crystallization output</span>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.75rem", color: "#c8b4f8", fontWeight: 700 }}>{mineralsScaleTpm} Tons / Month</span>
-              </div>
-              <input
-                type="range"
-                min="10"
-                max="3000"
-                step="10"
-                value={mineralsScaleTpm}
-                onChange={(e) => setMineralsScaleTpm(parseInt(e.target.value))}
-                style={{ width: "100%", accentColor: "#c8b4f8", background: "var(--card-border)", height: "4px", outline: "none" }}
-              />
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.55rem", fontFamily: "var(--font-mono)", color: "var(--muted)", marginTop: "0.4rem" }}>
-                <span>10 Tons/mo</span>
-                <span>1,500 Tons/mo</span>
-                <span>3,000 Tons/mo</span>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Right Side: Request Details Form */}
@@ -364,12 +235,9 @@ export default function InfrastructureRequest() {
 
             {/* Brief Configuration Preview */}
             <div style={{ background: "var(--card-border)", padding: "1.2rem", marginBottom: "2rem" }}>
-              <div style={{ fontSize: "0.55rem", fontFamily: "var(--font-mono)", color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "0.75rem" }}>Config Summary</div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem 1.5rem", fontSize: "0.7rem", fontFamily: "var(--font-mono)" }}>
-                <div>Location: <span style={{ color: "var(--off-white)" }}>{selectedLoc.name.split(",")[0]}</span></div>
-                <div>Budget: <span style={{ color: "var(--off-white)" }}>{selectedBudget.label}</span></div>
-                <div>GPUs: <span style={{ color: "var(--accent)" }}>{computeScaleMw} MW</span></div>
-                <div>Water: <span style={{ color: "#85B7EB" }}>{waterScaleKld} kL/d</span></div>
+              <div style={{ fontSize: "0.55rem", fontFamily: "var(--font-mono)", color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "0.75rem" }}>Enquiry</div>
+              <div style={{ fontSize: "0.7rem", fontFamily: "var(--font-mono)", color: "var(--off-white)" }}>
+                Region: {selectedLoc.name}
               </div>
             </div>
 

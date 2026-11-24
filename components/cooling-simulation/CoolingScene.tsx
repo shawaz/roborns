@@ -9,12 +9,12 @@ interface CoolingSceneProps {
 
 // Station layout in 3D world units, left-to-right pipeline:
 // Ocean intake -> Titanium heat exchanger <-> Immersion server racks
-//              -> MED-TVC cells -> Freshwater tank / Mineral crystallizer
+//              -> LT-MED cells -> Freshwater tank / Mineral crystallizer
 export const STATION_LABELS = [
   { id: "ocean", title: "Seawater Intake", left: "5%", top: "62%", color: "#85B7EB" },
   { id: "hx", title: "Titanium Plate Heat Exchanger", left: "24%", top: "40%", color: "#9aa5ad" },
   { id: "servers", title: "Immersion-Cooled Server Racks", left: "40%", top: "16%", color: "#5DCAA5" },
-  { id: "med", title: "MED-TVC Flash Cells", left: "60%", top: "48%", color: "#bfe3f2" },
+  { id: "med", title: "LT-MED Cells", left: "60%", top: "48%", color: "#bfe3f2" },
   { id: "freshwater", title: "Freshwater Output", left: "84%", top: "18%", color: "#85B7EB" },
   { id: "minerals", title: "Mineral Crystallization / ZLD", left: "84%", top: "78%", color: "#d9c9a8" },
 ];
