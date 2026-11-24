@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import Image from "next/image";
 import { LeadForm } from "@/components/LeadForm";
 
 const MINERAL_TEMPLATES = [
@@ -64,7 +64,7 @@ export default function MineralSupply() {
         {/* Left Side: Technology Info */}
         <div>
           <div className="page-image-wrap">
-            <img src="/images/minerals.jpg" alt="Roborns Mineral Recovery Crystallization" />
+            <Image src="/images/minerals.webp" alt="Roborns Mineral Recovery Crystallization" fill sizes="(max-width: 900px) 100vw, 60vw" />
           </div>
           <section className="product-section">
             <h3>Zero-Liquid-Discharge Brine Processing</h3>

@@ -1,6 +1,11 @@
 import Link from "next/link";
+import { pageMeta } from "@/lib/metadata";
 
-export const metadata = { title: "Careers — Roborns" };
+export const metadata = pageMeta({
+  title: "Careers — Roborns",
+  description: "Open roles at Roborns in thermal systems, data centre infrastructure, brine analysis, commercial development, and environmental compliance.",
+  path: "/career",
+});
 
 const OPENINGS = [
   {
@@ -83,7 +88,7 @@ export default function CareerPage() {
                     <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "var(--muted)", letterSpacing: "0.1em" }}>{job.type}</span>
                   </div>
                 </div>
-                <Link href="/infrastructure" className="btn-outline" style={{ fontSize: "0.62rem", padding: "0.5rem 1.2rem" }}>
+                <Link href={`mailto:careers@codelude.com?subject=${encodeURIComponent(`Application: ${job.title}`)}`} className="btn-outline" style={{ fontSize: "0.62rem", padding: "0.5rem 1.2rem" }}>
                   Apply →
                 </Link>
               </div>
@@ -95,9 +100,10 @@ export default function CareerPage() {
         <div style={{ marginTop: "3rem", background: "var(--card-bg)", border: "1px solid var(--card-border)", padding: "2.5rem" }}>
           <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: "0.75rem" }}>Don&apos;t see your role?</h3>
           <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.72rem", color: "var(--muted)", lineHeight: 1.8, marginBottom: "1.5rem" }}>
-            We&apos;re always open to exceptional people. Send us your background and what problem you want to help solve.
+            We&apos;re always open to exceptional people. Send us your background and what problem you want to help solve, or email{" "}
+            <Link href="mailto:careers@codelude.com" style={{ color: "var(--accent)", textDecoration: "none" }}>careers@codelude.com</Link>.
           </p>
-          <Link href="/infrastructure" className="btn-primary">Get in Touch →</Link>
+          <Link href="/contact" className="btn-primary">Get in Touch →</Link>
         </div>
       </div>
     </div>

@@ -2,12 +2,21 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { SITE_URL } from "@/lib/company";
 
 export const metadata: Metadata = {
-  title: "Roborns — Coastal AI Infrastructure",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Roborns — Coastal AI Infrastructure",
+    template: "%s",
+  },
   description: "Coastal facility. Three resource loops. Zero waste.",
-  icons: {
-    icon: "/logo.png",
+  openGraph: {
+    siteName: "Roborns",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
   },
 };
 

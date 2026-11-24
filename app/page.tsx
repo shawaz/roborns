@@ -1,6 +1,15 @@
 import Link from "next/link";
+import Image from "next/image";
 import { DottedSurface } from "@/components/ui/dotted-surface";
 import { CoolingSimulationModal } from "@/components/cooling-simulation/CoolingSimulationModal";
+import { pageMeta } from "@/lib/metadata";
+
+export const metadata = pageMeta({
+  title: "Roborns — Coastal AI Infrastructure",
+  description: "A coastal facility that cools GPU compute with seawater, uses the waste heat for desalination, and recovers commercial minerals from the brine.",
+  path: "/",
+  image: "/images/compute.webp",
+});
 
 export default function Home() {
   return (
@@ -38,7 +47,7 @@ export default function Home() {
           <Link href="/server" className="product-card">
             <div className="product-accent accent-server"></div>
             <div className="card-image-wrap">
-              <img src="/images/compute.jpeg" alt="Liquid immersion cooled GPU rack" />
+              <Image src="/images/compute.webp" alt="Liquid immersion cooled GPU rack" fill sizes="(max-width: 900px) 100vw, 33vw" />
             </div>
             <div className="product-index">01 / SERVER RENTAL</div>
             <div className="product-name">Rent a Server</div>
@@ -53,7 +62,7 @@ export default function Home() {
           <Link href="/water" className="product-card">
             <div className="product-accent accent-water"></div>
             <div className="card-image-wrap">
-              <img src="/images/water.jpg" alt="Desalinated water output valve" />
+              <Image src="/images/water.webp" alt="Desalinated water output valve" fill sizes="(max-width: 900px) 100vw, 33vw" />
             </div>
             <div className="product-index">02 / WATER OFFTAKE</div>
             <div className="product-name">Buy Water</div>
@@ -73,7 +82,7 @@ export default function Home() {
           <Link href="/mineral" className="product-card">
             <div className="product-accent accent-minerals"></div>
             <div className="card-image-wrap">
-              <img src="/images/minerals.jpg" alt="Mineral salts extracted from brine" />
+              <Image src="/images/minerals.webp" alt="Mineral salts extracted from brine" fill sizes="(max-width: 900px) 100vw, 33vw" />
             </div>
             <div className="product-index">03 / MINERAL SUPPLY</div>
             <div className="product-name">Buy Minerals</div>

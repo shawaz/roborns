@@ -1,6 +1,29 @@
 import Link from "next/link";
+import { CONTACTS } from "@/lib/contacts";
+import { pageMeta } from "@/lib/metadata";
 
-export const metadata = { title: "Help — Roborns" };
+export const metadata = pageMeta({
+  title: "Help — Roborns",
+  description: "Answers to common questions about Roborns compute, water, minerals, and how to reach the team.",
+  path: "/help",
+});
+
+function HelpText({ text }: { text: string }) {
+  const parts = text.split(/(Contact page|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/gi);
+  return (
+    <>
+      {parts.map((part, index) => {
+        if (/^contact page$/i.test(part)) {
+          return <Link key={index} href="/contact" style={{ color: "var(--accent)", textDecoration: "none" }}>{part}</Link>;
+        }
+        if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(part)) {
+          return <Link key={index} href={`mailto:${part}`} style={{ color: "var(--accent)", textDecoration: "none" }}>{part}</Link>;
+        }
+        return <span key={index}>{part}</span>;
+      })}
+    </>
+  );
+}
 
 const FAQS = [
   {
@@ -33,16 +56,6 @@ const FAQS = [
   },
 ];
 
-const CHANNELS = [
-  { label: "General Enquiries", val: "roborns@codelude.com" },
-  { label: "Water Supply", val: "supply@codelude.com" },
-  { label: "Server & Infrastructure", val: "infra@codelude.com" },
-  { label: "Minerals", val: "minerals@codelude.com" },
-  { label: "Careers", val: "careers@codelude.com" },
-  { label: "Press & Media", val: "press@codelude.com" },
-  { label: "Legal", val: "legal@codelude.com" },
-];
-
 export default function HelpPage() {
   return (
     <div className="page" style={{ minHeight: "100vh" }}>
@@ -61,7 +74,7 @@ export default function HelpPage() {
             {FAQS.map((item) => (
               <div key={item.q} style={{ background: "var(--card-bg)", padding: "2rem" }}>
                 <h3 style={{ fontSize: "0.9rem", fontWeight: 700, marginBottom: "0.75rem", color: "var(--off-white)" }}>{item.q}</h3>
-                <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.72rem", color: "var(--muted)", lineHeight: 1.9, fontWeight: 300 }}>{item.a}</p>
+                <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.72rem", color: "var(--muted)", lineHeight: 1.9, fontWeight: 300 }}><HelpText text={item.a} /></p>
               </div>
             ))}
           </div>
@@ -70,14 +83,14 @@ export default function HelpPage() {
         <div className="help-sidebar" style={{ position: "sticky", top: "100px" }}>
           <div className="section-label">Contact Channels</div>
           <div style={{ display: "flex", flexDirection: "column", gap: "1px", background: "var(--card-border)", border: "1px solid var(--card-border)", marginBottom: "2rem" }}>
-            {CHANNELS.map((ch) => (
+            {CONTACTS.map((ch) => (
               <div key={ch.label} className="channel-row">
                 <span className="channel-name">{ch.label}</span>
-                <span className="channel-val">{ch.val}</span>
+                <Link className="channel-val" href={`mailto:${ch.email}`}>{ch.email}</Link>
               </div>
             ))}
           </div>
-          <Link href="/infrastructure" className="btn-primary" style={{ display: "block", textAlign: "center" }}>
+          <Link href="/contact" className="btn-primary" style={{ display: "block", textAlign: "center" }}>
             Send a Message →
           </Link>
         </div>

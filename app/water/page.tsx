@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import Image from "next/image";
 import { LeadForm } from "@/components/LeadForm";
 
 const WATER_GRADES = [
@@ -68,7 +68,7 @@ export default function WaterOfftake() {
         {/* Left Side: Technology Info */}
         <div>
           <div className="page-image-wrap">
-            <img src="/images/water.jpg" alt="Roborns Waste-Heat Desalination System" />
+            <Image src="/images/water.webp" alt="Roborns Waste-Heat Desalination System" fill sizes="(max-width: 900px) 100vw, 60vw" />
           </div>
           <section className="product-section">
             <h3>Waste-Heat Driven Multi-Effect Distillation</h3>

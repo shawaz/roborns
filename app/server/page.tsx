@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import Image from "next/image";
 import { LeadForm } from "@/components/LeadForm";
 import { motion } from "framer-motion";
 
@@ -71,7 +71,7 @@ export default function ServerRental() {
         {/* Left Side: Technology Info */}
         <div>
           <div className="page-image-wrap">
-            <img src="/images/compute.jpeg" alt="Roborns Immersion-Cooled Compute Floor" />
+            <Image src="/images/compute.webp" alt="Roborns Immersion-Cooled Compute Floor" fill sizes="(max-width: 900px) 100vw, 60vw" />
           </div>
           <section className="product-section">
             <h3>Seawater-Cooled Thermal Envelope</h3>

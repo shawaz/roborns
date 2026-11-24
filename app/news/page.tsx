@@ -1,6 +1,11 @@
 import Link from "next/link";
+import { pageMeta } from "@/lib/metadata";
 
-export const metadata = { title: "News — Roborns" };
+export const metadata = pageMeta({
+  title: "News — Roborns",
+  description: "Milestones, partnerships, and announcements from the Roborns coastal infrastructure build-out.",
+  path: "/news",
+});
 
 const ARTICLES = [
   {

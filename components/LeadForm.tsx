@@ -7,10 +7,13 @@ interface Props {
   source: string;
   accent?: string;
   label?: string;
+  initialOpen?: boolean;
+  interests?: string[];
 }
 
-export function LeadForm({ interest, config, source, accent = "var(--accent)", label }: Props) {
-  const [open, setOpen] = useState(false);
+export function LeadForm({ interest, config, source, accent = "var(--accent)", label, initialOpen = false, interests }: Props) {
+  const [open, setOpen] = useState(initialOpen);
+  const [selectedInterest, setSelectedInterest] = useState(interest);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -23,7 +26,7 @@ export function LeadForm({ interest, config, source, accent = "var(--accent)", l
       const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message, interest, config, source }),
+        body: JSON.stringify({ name, email, message, interest: selectedInterest, config, source }),
       });
       setStatus(res.ok ? "success" : "error");
     } catch {
@@ -43,7 +46,7 @@ export function LeadForm({ interest, config, source, accent = "var(--accent)", l
     );
   }
 
-  if (!open) {
+  if (!initialOpen && !open) {
     return (
       <button
         onClick={() => setOpen(true)}
@@ -59,10 +62,19 @@ export function LeadForm({ interest, config, source, accent = "var(--accent)", l
     <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.25rem" }}>
         <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.58rem", color: accent, letterSpacing: "0.15em", textTransform: "uppercase" }}>
-          Enquiry — {interest}
+          Enquiry — {selectedInterest}
         </span>
-        <button type="button" onClick={() => setOpen(false)} style={{ background: "none", border: "none", color: "var(--muted)", cursor: "pointer", fontSize: "1rem", lineHeight: 1 }}>✕</button>
+        {!initialOpen && (
+          <button type="button" onClick={() => setOpen(false)} style={{ background: "none", border: "none", color: "var(--muted)", cursor: "pointer", fontSize: "1rem", lineHeight: 1 }}>✕</button>
+        )}
       </div>
+      {interests && interests.length > 0 && (
+        <select className="form-select" aria-label="Interest" value={selectedInterest} onChange={(e) => setSelectedInterest(e.target.value)} required>
+          {interests.map((option) => (
+            <option key={option}>{option}</option>
+          ))}
+        </select>
+      )}
       {config && (
         <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.62rem", color: "var(--muted)", background: "var(--card-border)", padding: "0.6rem 0.8rem", lineHeight: 1.5 }}>
           {config}
@@ -81,7 +93,7 @@ export function LeadForm({ interest, config, source, accent = "var(--accent)", l
       </button>
       {status === "error" && (
         <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.63rem", color: "#ff6b6b", margin: 0 }}>
-          Failed to send. Email roborns@codelude.com directly.
+          Failed to send. Email <a href="mailto:roborns@codelude.com" style={{ color: "inherit" }}>roborns@codelude.com</a> directly.
         </p>
       )}
     </form>

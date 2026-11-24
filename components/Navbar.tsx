@@ -7,6 +7,7 @@ import { Sun, Moon, X, Menu } from "lucide-react";
 import Image from "next/image";
 import lightLogo from '../public/logo.png';
 import darkLogo from '../public/logo-dark.png';
+import { COPYRIGHT, LEGAL_CIN, LEGAL_OFFICE } from "@/lib/company";
 
 const MAIN_LINKS = [
   { href: "/server", label: "Compute" },
@@ -15,10 +16,14 @@ const MAIN_LINKS = [
 ];
 
 const FOOTER_LINKS = [
-  { href: "/legal", label: "Legal" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
   { href: "/career", label: "Career" },
   { href: "/news", label: "News" },
   { href: "/help", label: "Help" },
+  { href: "/legal", label: "Legal" },
+  { href: "/privacy", label: "Privacy" },
+  { href: "/terms", label: "Terms" },
 ];
 
 export default function Navbar() {
@@ -148,7 +153,11 @@ export default function Navbar() {
           ))}
         </div>
 
-        <p className="mobile-overlay-copy">© 2026 Roborns. All rights reserved.</p>
+        <p className="mobile-overlay-copy">
+          {COPYRIGHT}
+          <br />CIN {LEGAL_CIN}
+          <br />Registered office: {LEGAL_OFFICE}
+        </p>
       </div>
     </>
   );

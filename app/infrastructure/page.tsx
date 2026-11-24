@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import Image from "next/image";
 import BoundaryMapPicker, { type BoundaryResult } from "./boundary-map-picker";
 
 const LOCATIONS = [
@@ -120,7 +120,7 @@ export default function InfrastructureRequest() {
         {/* Left Side: Configuration Controls */}
         <div>
           <div className="page-image-wrap">
-            <img src="/images/facility.png" alt="Roborns Coastal Circular Facility Design Model" />
+            <Image src="/images/facility.webp" alt="Roborns Coastal Circular Facility Design Model" fill sizes="(max-width: 900px) 100vw, 60vw" />
           </div>
           {/* Step 1: Location */}
           <div style={{ marginBottom: "3rem" }}>
